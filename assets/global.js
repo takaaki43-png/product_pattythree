@@ -5,23 +5,7 @@ function getFocusableElements(container) {
     )
   );
 }
-const scrollRightButton = document.querySelector('.scroll-right');
-const nav = document.querySelector('.l_header__bottom__nav');
 
-scrollRightButton.addEventListener('click', () => {
-  nav.scrollBy({
-    left: 100, // スクロールさせたいピクセル数
-    behavior: 'smooth'
-  });
-});
-nav.addEventListener('scroll', () => {
-  const maxScrollLeft = nav.scrollWidth - nav.clientWidth;
-  if (nav.scrollLeft >= maxScrollLeft) {
-    scrollRightButton.style.display = 'none';
-  } else {
-    scrollRightButton.style.display = 'block';
-  }
-});
 document.querySelectorAll('[id^="Details-"] summary').forEach((summary) => {
   summary.setAttribute('role', 'button');
   summary.setAttribute('aria-expanded', summary.parentNode.hasAttribute('open'));

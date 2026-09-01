@@ -15,11 +15,12 @@
       <span class="visually-hidden">Xにポストする</span>
     </a>
   </li>
-  <li>
-    <a target="_blank" href="//pinterest.com/pin/create/button/?url={{ shop.url | append: share_permalink }}&amp;media={{ share_image | img_url: '1024x1024' }}&amp;description={{ share_title | url_param_escape }}" class="btn btn--small btn--share share-pinterest m_soc-share__button m_soc-share__button--pinterest u_hover">
-      {% render 'icon-pinterest' %}
-      <span class="share-title" aria-hidden="true">ピンする</span>
-      <span class="visually-hidden">Pinterestでピンする</span>
+    <li>
+    <a target="_blank" href="https://social-plugins.line.me/lineit/share?url={{ shop.url | append: product.url }}" class="btn btn--small btn--share share-pinterest m_soc-share__button m_soc-share__button--pinterest u_hover">
+      <img src="https://cdn.shopify.com/s/files/1/0827/2563/4283/files/LINE_logo_svg.webp?v=1785462461">
+      <span class="share-title" aria-hidden="true">シェア</span>
+      <span class="visually-hidden">シェア</span>
     </a>
   </li>
+
 </ul>

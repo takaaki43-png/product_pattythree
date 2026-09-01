@@ -31,11 +31,11 @@
         "show_like": true,
         "show_rating": false,
         "enable_quick_add": false,
-        "enable_filtering": false,
-        "filter_type": "horizontal",
+        "enable_filtering": true,
+        "filter_type": "vertical",
         "enable_sorting": false,
         "columns_mobile": "2",
-        "padding_top": 36,
+        "padding_top": 4,
         "padding_bottom": 60
       }
     },

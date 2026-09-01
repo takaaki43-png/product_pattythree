@@ -185,8 +185,8 @@
       "clear_all": "すべてを削除する",
       "from": "から",
       "filter_and_sort": "絞り込みと並び替え",
-      "filter_by_label": "絞り込み:",
-      "filter_button": "絞り込む",
+      "filter_by_label": "絞り込み",
+      "filter_button": "絞り込み",
       "filters_selected": {
         "one": "{{ count }}個が選択されました",
         "other": "{{ count }}個が選択されました"
@@ -197,8 +197,8 @@
         "other": "{{ count }}個の商品の{{ product_count }}"
       },
       "product_count_simple": {
-        "one": "{{ count }}個の商品",
-        "other": "{{ count }}個の商品"
+        "one": "{{ count }}件",
+        "other": "{{ count }}件"
       },
       "reset": "リセット",
       "sort_button": "並び替え",
@@ -219,7 +219,7 @@
       },
       "title": "検索結果",
       "page": "ページ",
-      "products": "商品管理",
+      "products": "関連する商品",
       "search_for": "「{{ terms }}」を検索",
       "results_with_count_and_term": {
         "one": "「{{ terms }}」の検索結果{{ count }}件",
@@ -234,8 +234,8 @@
         "other": "{{ count }}件の候補"
       },
       "results_products_with_count": {
-        "one": "{{ count }}個の商品",
-        "other": "{{ count }}個の商品"
+        "one": "{{ count }}件",
+        "other": "{{ count }}件"
       },
       "suggestions": "候補",
       "pages": "ページ"
@@ -486,10 +486,7 @@
       },
       "order_summary": {
         "taxes_label": "内税",
-        "shipping_information_does_not_meet_discount_requirements_notice": "<strong style=\"text-transform:uppercase\">{{ code }}</strong>のクーポンコードはご注文の商品の送料が異なるためご利用いただけません",
-        "discount_discovery": {
-          "add_code": "クーポンを入力する"
-        }
+        "shipping_information_does_not_meet_discount_requirements_notice": "<strong style=\"text-transform:uppercase\">{{ code }}</strong>のクーポンコードはご注文の商品の送料が異なるためご利用いただけません"
       }
     }
   },

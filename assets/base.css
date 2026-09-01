@@ -791,9 +791,9 @@ summary {
 
 summary .icon-caret {
   position: absolute;
-  height: 0.6rem;
+  height: 1.7rem;
   right: 1.5rem;
-  top: calc(50% - 0.2rem);
+  top: calc(50% - 0.8rem);
 }
 
 summary::-webkit-details-marker {
@@ -846,19 +846,13 @@ summary::-webkit-details-marker {
 }
 
 *:focus-visible:not(#recover) {
-  outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
-  outline-offset: 0.3rem;
-  box-shadow: 0 0 0 0.3rem rgb(var(--color-background)),
-    0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
+
 }
 
 /* Fallback - for browsers that don't support :focus-visible, a fallback is set for :focus */
 .focused,
 .no-js *:focus {
-  outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
-  outline-offset: 0.3rem;
-  box-shadow: 0 0 0 0.3rem rgb(var(--color-background)),
-    0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
+
 }
 
 /* Negate the fallback side-effect for browsers that support :focus-visible */
@@ -872,16 +866,12 @@ summary::-webkit-details-marker {
 */
 
 .focus-inset:focus-visible {
-  outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
-  outline-offset: -0.2rem;
-  box-shadow: 0 0 0.2rem 0 rgba(var(--color-foreground), 0.3);
+
 }
 
 .focused.focus-inset,
 .no-js .focus-inset:focus {
-  outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
-  outline-offset: -0.2rem;
-  box-shadow: 0 0 0.2rem 0 rgba(var(--color-foreground), 0.3);
+
 }
 
 .no-js .focus-inset:focus:not(:focus-visible) {
@@ -900,18 +890,12 @@ summary::-webkit-details-marker {
 }
 
 .focus-offset:focus-visible {
-  outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
-  outline-offset: 1rem;
-  box-shadow: 0 0 0 1rem rgb(var(--color-background)),
-    0 0 0.2rem 1.2rem rgba(var(--color-foreground), 0.3);
+
 }
 
 .focus-offset.focused,
 .no-js .focus-offset:focus {
-  outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
-  outline-offset: 1rem;
-  box-shadow: 0 0 0 1rem rgb(var(--color-background)),
-    0 0 0.2rem 1.2rem rgba(var(--color-foreground), 0.3);
+
 }
 
 .no-js .focus-offset:focus:not(:focus-visible) {
@@ -1707,7 +1691,9 @@ details[open] > .share-button__fallback {
   box-shadow: var(--inputs-shadow-horizontal-offset) var(--inputs-shadow-vertical-offset) var(--inputs-shadow-blur-radius) rgba(var(--color-base-text), var(--inputs-shadow-opacity));
   z-index: -1;
 }
-
+.field__input:focus-visible, .select__select:focus-visible, .localization-form__select:focus-visible.localization-form__select::after{
+  box-shadow:none !important;
+}
 .field:after,
 .select:after,
 .localization-form__select:after {
@@ -1833,6 +1819,7 @@ details[open] > .share-button__fallback {
   top: calc(var(--inputs-border-width) + 0.5rem);
   left: calc(var(--inputs-border-width) + 2rem);
   letter-spacing: 0.04rem;
+  display:none;
 }
 /*
 .field__input:focus,
@@ -2263,7 +2250,6 @@ product-info .loading-overlay:not(.hidden) ~ *,
 }
 
 .header-wrapper--border-bottom {
-  border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.08);
 }
 
 .header {
@@ -2349,9 +2335,8 @@ product-info .loading-overlay:not(.hidden) ~ *,
 .header__heading,
 .header__heading-link {
   grid-area: heading;
-  justify-self: center;
+  justify-self: flex-start;
 }
-
 .header__heading-link {
   display: inline-block;
   padding: 0.75rem;
@@ -2371,6 +2356,14 @@ product-info .loading-overlay:not(.hidden) ~ *,
 .header__heading-logo {
   height: auto;
   max-width: 100%;
+  min-width:192px;
+}
+@media (max-width: 749px) {
+  .header__heading-logo {
+  height: auto;
+  max-width: 140px;
+  min-width:35vw;
+}
 }
 
 .header__heading-logo-wrapper {
@@ -2388,7 +2381,7 @@ product-info .loading-overlay:not(.hidden) ~ *,
   .header--mobile-left .header__heading,
   .header--mobile-left .header__heading-link {
     text-align: left;
-    justify-self: start;
+    justify-self: flex-start;
   }
 
   .header--mobile-left {
@@ -2404,13 +2397,13 @@ product-info .loading-overlay:not(.hidden) ~ *,
 
   .header--middle-center .header__heading-link,
   .header--middle-center .header__heading {
-    justify-self: center;
+    justify-self: flex-start;
     text-align: center;
   }
 
   .header--top-center .header__heading-link,
   .header--top-center .header__heading {
-    justify-self: center;
+    justify-self: flex-start;
     text-align: center;
   }
 }
@@ -2422,26 +2415,18 @@ product-info .loading-overlay:not(.hidden) ~ *,
   justify-self: end;
 }
 
-.header__icons .shopify-app-block {
+.s .shopify-app-block {
   max-width: 4.4rem;
   max-height: 4.4rem;
   overflow: hidden;
 }
 
-.header__icon:not(.header__icon--summary),
-.header__icon span {
+.:not(.--summary){
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.header__icon {
-  color: rgb(var(--color-foreground));
-}
-
-.header__icon span {
-  height: 100%;
-}
 
 .header__icon::after {
   content: none;
@@ -2452,17 +2437,11 @@ product-info .loading-overlay:not(.hidden) ~ *,
   transform: scale(1.07);
 }
 
-.header__icon .icon {
-  height: 2rem;
-  width: 2rem;
-  fill: none;
-  vertical-align: middle;
-}
+
 
 .header__icon,
 .header__icon--cart .icon {
-  height: 4.4rem;
-  width: 4.4rem;
+
   padding: 0;
 }
 

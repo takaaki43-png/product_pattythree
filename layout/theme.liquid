@@ -2,6 +2,7 @@
 <html class="no-js" lang="{{ request.locale.iso_code }}">
   <head>
     <meta charset="utf-8">
+    <meta name="robots" content="noindex, nofollow" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="">
@@ -169,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
         --media-shadow-blur-radius: 5px;
         --media-shadow-visible: 0;
 
-        --page-width: 1040px;
+        --page-width: 1200px;
         --page-width-margin: 0rem;
 
         --product-card-image-padding: 0.0rem;
@@ -227,7 +228,7 @@ document.addEventListener('DOMContentLoaded', function() {
         --spacing-sections-mobile: 0px;
 
         --grid-desktop-vertical-spacing: 16px;
-        --grid-desktop-horizontal-spacing: 24px;
+        --grid-desktop-horizontal-spacing: 20px;
         --grid-mobile-vertical-spacing: 16px;
         --grid-mobile-horizontal-spacing: 24px;
 
@@ -342,7 +343,7 @@ document.addEventListener('DOMContentLoaded', function() {
         main.style.display = 'none';
     }
 });
-     window.location.href = 'https://pattythree-shop-product.jp/collections/all';
+     window.location.href = 'https://pattythree-test.myshopify.com/collections/all';
   </script>
   {% endif %}
   {% endif %}
@@ -433,14 +434,10 @@ window.addEventListener('pageshow', function(event) {
   <meta http-equiv="refresh" content="0; url=/collections/all">
 {% endif %}
 
-
-
-
 </head>
 
   <body class="gradient template-{{template.name}} 
 {% if collection.handle == "dreamlive-10th" or product.type == "スタライ10th" %}
-
   dream-live-10th
 {% elsif collection.handle == "sp_sty" or product.type == "stream to you" %}
   stream
@@ -464,6 +461,59 @@ mdu-live
     {% sections 'header-group' %}
 
     <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
+    <nav class="breadcrumbs" aria-label="パンくず">
+      <a href="{{ routes.root_url }}">ホーム</a>
+
+      {% if template contains 'product' %}
+        <span> ＞ </span>
+
+        {% if product.collections.first %}
+          <a href="{{ product.collections.first.url }}">
+            {{ product.collections.first.title }}
+          </a>
+          <span> ＞ </span>
+        {% endif %}
+
+        <span>{{ product.title }}</span>
+
+      {% elsif template contains 'collection' %}
+        <span> ＞ </span>
+        <a href="{{ collection.url }}">
+          {{ collection.title }}
+        </a>
+
+        {% for filter in collection.filters %}
+          {% for value in filter.active_values %}
+            <span> ＞ </span>
+            <a href="{{ value.url_to_remove }}">
+              {{ value.label }}
+            </a>
+          {% endfor %}
+        {% endfor %}
+
+      {% elsif template contains 'article' %}
+        <span> > </span>
+        <span>{{ article.title }}</span>
+
+      {% elsif template contains 'blog' %}
+        <span> ＞ </span>
+        <span>{{ blog.title }}</span>
+
+      {% elsif template contains 'page' %}
+        <span> ＞ </span>
+        <span>{{ page.title }}</span>
+
+      {% elsif template contains 'search' %}
+        <span> ＞ </span>
+        <span>検索結果</span>
+
+      {% elsif template contains 'cart' %}
+        <span> ＞ </span>
+        <span>カート</span>
+
+      {% endif %}
+    </nav>
+
       {{ content_for_layout }}{%include 'recently-product-slider' %}
     </main>
 
@@ -552,7 +602,7 @@ mdu-live
 		<div class="modal-close">×</div>
 		<!-- モーダル内のコンテンツ -->
 		<div class="modal-content">
-<form data-cf-form="w6tDp5"></form>
+<form data-cf-form="54tlLq"></form>
 		</div>
 	</div>
 </div>
@@ -580,6 +630,7 @@ document.addEventListener('DOMContentLoaded', function () {
       <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
   {% include 'limitsify' %}
-	        
+
+ 
 </body>
 </html>

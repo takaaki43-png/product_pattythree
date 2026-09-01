@@ -100,22 +100,44 @@
     <div class="{% if section.settings.filter_type == 'vertical' %} facets-vertical page-width{% endif %}">
       {{ 'component-facets.css' | asset_url | stylesheet_tag }}
       <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
-      {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
-        <aside
-          aria-labelledby="verticalTitle"
-          class="facets-wrapper{% unless section.settings.enable_filtering %} facets-wrapper--no-filters{% endunless %}{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
-          id="main-collection-filters"
-          data-id="{{ section.id }}"
-        >
-          {% render 'facets',
-            results: collection,
-            enable_filtering: section.settings.enable_filtering,
-            enable_sorting: section.settings.enable_sorting,
-            filter_type: section.settings.filter_type,
-            paginate: paginate
-          %}
-        </aside>
-      {%- endif -%}
+   {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+
+  {% assign has_filters = false %}
+
+  {% for filter in collection.filters %}
+    {% for value in filter.values %}
+      {% if value.count > 0 %}
+        {% assign has_filters = true %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+
+    {% if has_filters %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+
+  <aside
+    aria-labelledby="verticalTitle"
+    class="
+      facets-wrapper
+      {% unless section.settings.enable_filtering %} facets-wrapper--no-filters{% endunless %}
+      {% if section.settings.filter_type != 'vertical' %} page-width{% endif %}
+      {% unless has_filters %} hidden md:hidden{% endunless %}
+    "
+    id="main-collection-filters"
+    data-id="{{ section.id }}"
+  >
+    {% render 'facets',
+      results: collection,
+      enable_filtering: section.settings.enable_filtering,
+      enable_sorting: section.settings.enable_sorting,
+      filter_type: section.settings.filter_type,
+      paginate: paginate
+    %}
+  </aside>
+
+{%- endif -%}
 
       <div class="product-grid-container" id="ProductGridContainer">
         {%- if collection.products.size == 0 -%}
@@ -145,7 +167,7 @@
               "
             >
               {%- for product in collection.products -%}
-{% if product.handle contains "docapp-free-gift-" %}{% continue %}{% endif %}
+              {% if product.handle contains "docapp-free-gift-" %}{% continue %}{% endif %}
 
                 {% assign lazy_load = false %}
                 {%- if forloop.index > 2 -%}
@@ -170,59 +192,16 @@
             </ul>
 
             {%- if paginate.pages > 1 -%}
-              {% render 'pagination', paginate: paginate, anchor: '', classes: 'js-pagination-hidden u_hide' %}
+              {% render 'pagination', paginate: paginate, anchor: '' %}
             {%- endif -%}
           </div>
         {%- endif -%}
-      </div>
-      <div class="page-width center collection__view-all">
-        <a href="#" id="js-read-more" class="a_button a_button--more u_hover">もっと見る</a>
-      </div>
+
     </div>
+    </div>
+
   {%- endpaginate -%}
 </div>
-<script>
-window.onload = ()=>{
-  let targetItem = document.querySelectorAll('.js-item');
-  let paginate = document.querySelector('.js-pagination-hidden');
-  let itemsPerView = {{ section.settings.first_view_product_number }};
-  let readMore = document.getElementById('js-read-more');
-  
-  targetItem.forEach((item, index) => {
-    if(index >= itemsPerView){
-      item.classList.add('u_hide');
-    }
-  });
-  if (targetItem.length <= itemsPerView) {
-    console.log(targetItem.length);
-    readMore.classList.add('u_hide');
-    paginate.classList.remove('u_hide');
-  }
-
-  
-  readMore.addEventListener('click', (e)=>{
-    e.preventDefault();
-    const hiddenTarget = [];
-    
-    targetItem.forEach((item, index) => {
-      if(index >= itemsPerView && item.classList.contains('u_hide')){
-        hiddenTarget.push(item);
-      }
-    });
-    hiddenTarget.forEach((item, index) => {
-      if(index < itemsPerView){
-        item.classList.remove('u_hide');
-        let hiddenTargetCount = hiddenTarget.length - 1;
-        if (index === hiddenTargetCount) {
-          readMore.classList.add('u_hide');
-          paginate.classList.remove('u_hide');
-        }
-      }
-    });
-  });
-}
-</script>
-
 {% schema %}{
   "name": "t:sections.main-collection-product-grid.name",
   "class": "section",

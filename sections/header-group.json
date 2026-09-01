@@ -13,7 +13,6 @@
   "sections": {
     "announcement-bar": {
       "type": "announcement-bar",
-      "disabled": true,
       "blocks": {
         "announcement-bar-0": {
           "type": "announcement",
@@ -28,6 +27,7 @@
       "block_order": [
         "announcement-bar-0"
       ],
+      "disabled": true,
       "settings": {}
     },
     "header": {
@@ -64,7 +64,7 @@
       "settings": {
         "menu": "drawer-menu",
         "menu_type_desktop": "drawer",
-        "sticky_header_type": "none",
+        "sticky_header_type": "always",
         "show_line_separator": false,
         "color_scheme": "bg-brand-1",
         "enable_country_selector": false,

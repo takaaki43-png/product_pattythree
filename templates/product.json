@@ -55,34 +55,6 @@
             "share_label": "Share"
           }
         },
-        "e1a93e76-3a9d-4235-bd4f-2c032a284536": {
-          "type": "shopify://apps/advanced-wishlist/blocks/wishlist-btn/330d9272-08ea-4193-b3e0-475a69fa65fa",
-          "settings": {
-            "button_style": "style_1",
-            "button_border": 0,
-            "button_font_size": 16,
-            "button_font_weight": "500",
-            "button_border_radius": 0,
-            "button_vertical_space": 9,
-            "button_horizontal_space": 16,
-            "button_text_color": "#ffffff",
-            "button_background": "#5c6ac4",
-            "border_color": "#5c6ac4",
-            "hover_button_text_color": "#ffffff",
-            "hover_button_background_color": "#5c6ac4",
-            "hover_button_border_color": "#5c6ac4",
-            "is_new_icon_settings": true,
-            "icon_type": "outline",
-            "icon_size": 16,
-            "icon_background_type": "icon_round_background",
-            "icon_background_color": "rgba(0,0,0,0)",
-            "icon_fill_color": "#000000",
-            "icon_border_color": "#000000",
-            "icon_hover_color": "#f84b29",
-            "selected_icon_fill_color": "#f84b29",
-            "selected_icon_border_color": "#f84b29"
-          }
-        },
         "c889437c-1a71-41bc-8589-bf29312dea3c": {
           "type": "alltags",
           "settings": {}
@@ -98,7 +70,6 @@
         "buy_buttons",
         "description",
         "share",
-        "e1a93e76-3a9d-4235-bd4f-2c032a284536",
         "c889437c-1a71-41bc-8589-bf29312dea3c"
       ],
       "settings": {

@@ -15,14 +15,14 @@
           {%- endif -%}
         </a>
       </div>
-      <div class="l_footer__nav__list__item">
+      <!--<div class="l_footer__nav__list__item">
         <a href="{{ routes.root_url }}apps/advanced-wishlist" class="l_footer__nav__link u_hover">
           <span class="l_footer__nav__link__icon">
             {% render 'icon-heart-thick' %}
           </span>
           <span class="l_footer__nav__link__text">お気に入り</span>
         </a>
-      </div>
+      </div>-->
       {%- if shop.customer_accounts_enabled -%}
       <div class="l_footer__nav__list__item">
         <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" class="l_footer__nav__link u_hover">
@@ -42,18 +42,19 @@
       </div>
       {%- endif -%}
       <div class="l_footer__nav__list__item">
-        <button class="l_footer__nav__link js-menu-open u_hover">
+        <a href="https://pattythree-test.myshopify.com/search" class="l_footer__nav__link u_hover">
           <span class="l_footer__nav__link__icon">
             {% render 'icon-drawer' %}
           </span>
           <span class="l_footer__nav__link__text">探す</span>
-        </button>
+        </a>
       </div>
     </div>
   </div>
 </div>
 {%- endif -%}
-
+{% comment %}
+一時停止
 {% javascript %}
 document.addEventListener("DOMContentLoaded",()=>{
   const menuOpenBtn = document.querySelector(".js-menu-open");
@@ -101,6 +102,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 },false);
 
 {% endjavascript %}
+{% endcomment %}
 
 {% schema %}
   {

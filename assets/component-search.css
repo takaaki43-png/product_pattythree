@@ -1,10 +1,30 @@
 .search__input.field__input {
-  padding-right: 9.8rem;
+  padding-left: 3.8rem;
+  padding-right: 0rem;
 }
-
+.search__input{
+  height:47px;
+}
+.search .field__label{
+  top:33%;
+  left:40px;
+}
+.search .field::after{
+  border-radius: 40px;
+}
+.search .field:focus{
+    border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.search .field:focus-within {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
 .search__button {
-  right: var(--inputs-border-width);
-  top: var(--inputs-border-width);
+  left: var(--inputs-border-width);
+  top: 15%;
 }
 .search__button .icon {
   height: 1.8rem;
@@ -12,8 +32,8 @@
 }
 
 .reset__button {
-  right: calc(var(--inputs-border-width) + 4.4rem);
-  top: var(--inputs-border-width);
+  right:10px;
+  top: 13%;
 }
 .reset__button:not(:focus-visible)::after {
   border-right: 0.1rem solid rgba(var(--color-foreground), 0.08);
@@ -24,7 +44,7 @@
   right: 0;
 }
 .reset__button:not(:focus)::after {
-  border-right: 0.1rem solid rgba(var(--color-foreground), 0.08);
+  border-right: 0rem solid rgba(var(--color-foreground), 0.08);
   display: block;
   height: calc(100% - 1.8rem);
   content: "";

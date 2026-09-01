@@ -9,7 +9,7 @@
 {%- endif -%}
 
 {%- style -%}
-  .footer {
+  .footer{
     margin-top: {{ section.settings.margin_top | times: 0.75 | round: 0 }}px;
   }
 
@@ -93,19 +93,10 @@
   </a>
 </div>
 {% endif %}
+<a href="/cart" class="l_footer__to-top js-to-top">
+ <img src="https://cdn.shopify.com/s/files/1/0827/2563/4283/files/cart_f.svg?v=1786092019">
+</a>
 
-<button class="l_footer__to-top js-to-top">
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    viewBox="0 0 24.121 13.121"
-    class="icon"
-  >
-    <g transform="translate(-283.439 -575.439)">
-      <line y1="11" x2="11" transform="translate(284.5 576.5)" fill="none" stroke="#000" stroke-linecap="round" stroke-width="1.5"/>
-      <line x2="11" y2="11" transform="translate(295.5 576.5)" fill="none" stroke="#000" stroke-linecap="round" stroke-width="1.5"/>
-    </g>
-  </svg>
-</button>
 <footer class="footer l_footer color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
   {%- liquid
     assign has_social_icons = true
@@ -178,24 +169,75 @@
                               {{ link.title }}
                             </a>
                           </li>
+                              {% unless forloop.last %}
+                              <span class="mx-8">｜</span>
+                            {% endunless %}
                         {%- endfor -%}
                       </ul>
                     {%- endif -%}
                   {%- when 'external_links' -%}
-                    {%- if block.settings.menu != blank -%}
-                      <ul class="footer-block__details-content list-unstyled">
-                        {%- for link in block.settings.menu.links -%}
-                          <li class="u_flex u_jcCenter">
-                            <a
-                              href="{{ link.url }}"
-                              class="link link--text list-menu__item list-menu__item--link{% if link.active %} list-menu__item--active{% endif %}{% if link.type == 'http_link'%} list-menu__item--external{% endif %}" {% if link.type == 'http_link'%} target="_blank"{% endif %}
-                            >
-                              {{ link.title }}
-                            </a>
-                          </li>
-                        {%- endfor -%}
-                      </ul>
-                    {%- endif -%}
+                    <section class="sh_socialLinks">
+  <div class="sh_socialLinks__inner">
+
+    <!-- pattythree -->
+    <div class="sh_socialGroup">
+      <h2 class="sh_socialGroup__title">pattythree</h2>
+
+      <div class="sh_socialGroup__links">
+        <a
+          href="https://x.com/patty3_info"
+          class="sh_socialLink"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src="https://cdn.shopify.com/s/files/1/0827/2563/4283/files/x_logo_w.svg?v=1785310886">
+          <span class="sh_socialLink__text">patty3_info</span>
+        </a>
+
+        <a
+          href="https://www.instagram.com/patty3_info/"
+          class="sh_socialLink"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src="https://cdn.shopify.com/s/files/1/0827/2563/4283/files/insta_logo_w.svg?v=1785310886">
+          <span class="sh_socialLink__text">patty3_info</span>
+        </a>
+
+        <a
+          href="https://pattythree.jp/"
+          class="sh_socialLink"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src="https://cdn.shopify.com/s/files/1/0827/2563/4283/files/blank_logo_w.svg?v=1785309658">
+          <span class="sh_socialLink__text">Corporate site</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- iime!! -->
+    <div class="sh_socialGroup">
+      <h2 class="sh_socialGroup__title">iime!!</h2>
+
+      <div class="sh_socialGroup__links">
+        <a
+          href="https://x.com/iime_info"
+          class="sh_socialLink"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+        <img src="https://cdn.shopify.com/s/files/1/0827/2563/4283/files/x_logo_w.svg?v=1785310886">
+          <span class="sh_socialLink__text">iime_info</span>
+        </a>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
                   {%- when 'brand_information' -%}
                     <div class="footer-block__brand-info">
                       {%- if settings.brand_image != blank -%}

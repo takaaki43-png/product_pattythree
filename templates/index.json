@@ -16,7 +16,7 @@
         "87947cad-ff7c-430e-8279-b686399a4018": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Group_2260.webp",
+            "image": "shopify:\/\/shop_images\/Group_2260.webp",
             "url": "#",
             "new_tab": false
           }
@@ -24,7 +24,7 @@
         "slide2": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Group_2260.webp",
+            "image": "shopify:\/\/shop_images\/Group_2260.webp",
             "url": "#",
             "new_tab": false
           }

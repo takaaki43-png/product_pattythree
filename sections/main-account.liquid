@@ -42,6 +42,267 @@
 .ar_b dd b{
 font-weight:bold;
 }
+   .zendesk-history {
+    max-width: 960px;
+  }
+
+  .zendesk-history__heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #dedede;
+  }
+
+  .zendesk-history__count {
+    margin: 0;
+    color: #777;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .zendesk-history__list {
+    display: grid;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .zendesk-history__loading {
+    margin: 0;
+    padding: 32px 16px;
+    color: #777;
+    text-align: center;
+  }
+
+  .ticket-card {
+    overflow: hidden;
+    border: 1px solid #e2e2e2;
+    border-radius: 10px;
+    background: #fff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom:20px;
+  }
+
+  .ticket-card[open] {
+    border-color: #222;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  .ticket-card__summary {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 20px;
+    align-items: center;
+    padding: 18px 52px 18px 20px;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .ticket-card__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .ticket-card__summary::after {
+    position: absolute;
+    top: 50%;
+    right: 23px;
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid #222;
+    border-bottom: 2px solid #222;
+    content: "";
+    transform: translateY(-65%) rotate(45deg);
+    transition: transform 0.2s ease;
+  }
+
+  .ticket-card[open] .ticket-card__summary::after {
+    transform: translateY(-35%) rotate(225deg);
+  }
+
+  .ticket-card__summary:hover {
+    background: #fafafa;
+  }
+
+  .ticket-card__number {
+    display: block;
+    margin-bottom: 5px;
+    color: #888;
+    font-size: 11px;
+  }
+
+  .ticket-card__subject {
+    display: block;
+    color: #222;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.6;
+  }
+
+  .ticket-card__summary-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #777;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .ticket-card__status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 66px;
+    padding: 5px 9px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .ticket-card__status.is-new {
+    color: #075f9d;
+    background: #e6f4ff;
+  }
+
+  .ticket-card__status.is-open {
+    color: #a45500;
+    background: #fff0dc;
+  }
+
+  .ticket-card__status.is-pending,
+  .ticket-card__status.is-hold {
+    color: #755300;
+    background: #fff8d8;
+  }
+
+  .ticket-card__status.is-solved,
+  .ticket-card__status.is-closed {
+    color: #34714a;
+    background: #e7f6eb;
+  }
+
+  .ticket-card__status.is-default {
+    color: #555;
+    background: #f1f1f1;
+  }
+
+  .ticket-card__body {
+    padding: 20px;
+    border-top: 1px solid #ededed;
+    background: #fafafa;
+  }
+
+  .ticket-card__info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin: 0;
+  }
+
+  .ticket-card__info > div {
+    padding: 12px 14px;
+    border-radius: 6px;
+    background: #fff;
+  }
+
+  .ticket-card__info dt {
+    margin-bottom: 4px;
+    color: #888;
+    font-size: 11px;
+  }
+
+  .ticket-card__info dd {
+    margin: 0;
+    color: #333;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .ticket-card__message {
+    margin-top: 16px;
+    padding: 16px;
+    border-left: 3px solid #222;
+    background: #fff;
+  }
+
+  .ticket-card__message-title {
+    margin: 0 0 8px;
+    color: #777;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .ticket-card__description {
+    color: #333;
+    font-size: 14px;
+    line-height: 1.9;
+    overflow-wrap: anywhere;
+  }
+.ticket-card__comments {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.ticket-comment {
+  padding: 14px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.ticket-comment--customer {
+  border: 1px solid #ddd;
+  background: #fff;
+}
+
+.ticket-comment--staff {
+  border-left: 3px solid #222;
+  background: #f3f3f3;
+}
+
+.ticket-comment__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+  color: #777;
+  font-size: 12px;
+}
+
+.ticket-comment__meta span {
+  color: #222;
+  font-weight: 700;
+}
+
+.ticket-comment__body {
+  overflow-wrap: anywhere;
+}
+  @media (max-width: 767px) {
+    .zendesk-history__heading {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .ticket-card__summary {
+      display: block;
+      padding: 16px 48px 16px 16px;
+    }
+
+    .ticket-card__summary-meta {
+      margin-top: 10px;
+    }
+
+    .ticket-card__body {
+      padding: 16px;
+    }
+
+    .ticket-card__info {
+      grid-template-columns: 1fr;
+    }
+  }
 {%- endstyle -%}
 
 <div class="customer o_customers account section-{{ section.id }}-padding">
@@ -53,7 +314,9 @@ font-weight:bold;
     {% comment %} {% render 'hulkapps-wishlist-account-btn' %} {% endcomment %}
     <div class="o_customers__menu-btn-wrap">
       <a href="{{ routes.account_url }}?pages=order" class="button o_customers__menu-btn u_hover">{% render 'icon-guide' %}注文履歴・発送状況</a>
-      <a href="{{ routes.account_url }}?pages=p_history" class="button o_customers__menu-btn u_hover">{% render 'icon-point_a' %}ポイント履歴</a>       <a href="{{ routes.account_url }}?pages=coupon" class="button o_customers__menu-btn u_hover">{% render 'icon-point_a' %}取得クーポン</a>
+      <a href="{{ routes.account_url }}?pages=p_history" class="button o_customers__menu-btn u_hover">{% render 'icon-point_a' %}ポイント履歴</a>
+      <a href="{{ routes.account_url }}?pages=zendesk" class="button o_customers__menu-btn u_hover">{% render 'icon-point_a' %}お問い合わせ履歴</a>
+      <a href="{{ routes.account_url }}?pages=coupon" class="button o_customers__menu-btn u_hover">{% render 'icon-point_a' %}取得クーポン</a>
       {% comment %} <a href="#" class="button o_customers__menu-btn u_hover">{% render 'icon-account' %}会員情報・設定</a> {% endcomment %}
       <a href="{{routes.account_addresses_url}}" class="button o_customers__menu-btn u_hover">{% render 'icon-truck' %}お届け先住所</a>
     </div>
@@ -61,10 +324,185 @@ font-weight:bold;
       {{ 'customer.log_out' | t }}
     </a>
   </div>
+
+<div id="page-zendesk" class="u_hide">
+<h1 class="o_customers__title">お問い合わせ履歴</h1>
+  <div id="zendesk-tickets">読み込み中...</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const currentPage = new URLSearchParams(window.location.search).get('pages');
+
+    if (currentPage !== 'zendesk') return;
+
+    const ticketsEl = document.getElementById('zendesk-tickets');
+
+    if (!ticketsEl) return;
+
+    const escapeHTML = (value) =>
+      String(value ?? '').replace(/[&<>"']/g, (character) => {
+        const entities = {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#039;',
+        };
+
+        return entities[character];
+      });
+
+    const formatText = (value) => {
+      const cleaned = String(value ?? '')
+        .replace(/&nbsp;|&#160;|&#xA0;|\u00A0/gi, '')
+        .replace(/\r\n?/g, '\n')
+        .replace(/\n[ \t]*\n[ \t]*\n+/g, '\n\n')
+        .trim();
+
+      return escapeHTML(cleaned || '本文はありません。').replace(/\n/g, '<br>');
+    };
+
+    const getStatus = (value) => {
+      const statuses = {
+        new: { label: '新規', className: 'is-new' },
+        open: { label: '対応中', className: 'is-open' },
+        pending: { label: '確認待ち', className: 'is-pending' },
+        hold: { label: '保留', className: 'is-hold' },
+        solved: { label: '解決済み', className: 'is-solved' },
+        closed: { label: 'クローズ', className: 'is-closed' },
+      };
+
+      return statuses[String(value || '').toLowerCase()] || {
+        label: value || '不明',
+        className: 'is-default',
+      };
+    };
+
+    const formatDate = (value) => {
+      if (!value) return '—';
+
+      const date = new Date(value);
+
+      if (Number.isNaN(date.getTime())) return value;
+
+      return date.toLocaleString('ja-JP', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+        timeZone: 'Asia/Tokyo',
+      });
+    };
+
+    fetch('/apps/zendesk', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: {{ customer.email | json }},
+      }),
+    })
+      .then(async (res) => {
+        const data = await res.json();
+
+        if (!res.ok || data.error) {
+          throw new Error(data.error || 'Zendeskの取得に失敗しました。');
+        }
+
+        return data;
+      })
+      .then((data) => {
+        const tickets = Array.isArray(data.tickets) ? data.tickets : [];
+
+        if (tickets.length === 0) {
+          ticketsEl.innerHTML = '<p>お問い合わせ履歴はありません。</p>';
+          return;
+        }
+
+        ticketsEl.innerHTML = tickets
+          .map((ticket) => {
+            const comments = Array.isArray(ticket.comments)
+              ? ticket.comments
+              : [];
+
+            const status = getStatus(ticket.status);
+
+            return `
+              <details class="ticket-card">
+                <summary class="ticket-card__summary">
+                  <span class="ticket-card__subject">
+                    ${escapeHTML(ticket.subject || '件名なし')}
+                  </span>
+
+                  <span class="ticket-card__meta">
+                    <span class="ticket-card__status ${status.className}">
+                      ${escapeHTML(status.label)}
+                    </span>
+                    <time>${escapeHTML(formatDate(ticket.updated_at))}</time>
+                  </span>
+                </summary>
+
+                <div class="ticket-card__body">
+                  <p>お問い合わせ番号：${escapeHTML(ticket.id)}</p>
+
+                  <div class="ticket-card__comments">
+                    ${
+                      comments.length
+                        ? comments
+                            .map((comment) => {
+                              const isStaff = comment.author_type === 'staff';
+
+                              return `
+                                <article class="ticket-comment ticket-comment--${
+                                  isStaff ? 'staff' : 'customer'
+                                }">
+                                  <div class="ticket-comment__meta">
+                                    <span>
+                                      ${
+                                        isStaff
+                                          ? 'サポート担当'
+                                          : 'お客様'
+                                      }
+                                    </span>
+                                    <time>
+                                      ${escapeHTML(formatDate(comment.created_at))}
+                                    </time>
+                                  </div>
+
+                                  <div class="ticket-comment__body">
+                                    ${formatText(comment.body)}
+                                  </div>
+                                </article>
+                              `;
+                            })
+                            .join('')
+                        : '<p>公開されている会話履歴はありません。</p>'
+                    }
+                  </div>
+                </div>
+              </details>
+            `;
+          })
+          .join('');
+      })
+      .catch((error) => {
+        ticketsEl.innerHTML =
+          '<p>お問い合わせ履歴を表示できません。</p>';
+
+        console.error(error);
+      });
+  });
+</script>
+ </div>
+
   <div id="page-coupon" class="u_hide">
       <h1 class="o_customers__title">取得クーポン</h1>
         {% assign now = 'now' | date: "%s" %}
       {% assign has_valid_coupon = false %}
+      
       {% assign sorted_coupons = shop.metaobjects.mypage_coupon.values | sort: "open_data.value" %}
 
       {% for coupon in sorted_coupons %}
@@ -248,53 +686,55 @@ function updateUrlParameter(url, param, value) {
     {% endcase %}
   {% endfor %}
 </div>
+
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // page toggler
-    const targetParameter = 'pages'; // 'page'以外のパラメーター
-    const currentPage = new URLSearchParams(window.location.search).get(targetParameter); // 'page'を 'pages' に変更
+ document.addEventListener('DOMContentLoaded', () => {
+  // page toggler
+  const targetParameter = 'pages';
+  const currentPage = new URLSearchParams(window.location.search).get(targetParameter);
 
-    const mainDiv = document.getElementById('page-main');
-    const ordersDiv = document.getElementById('page-orders');
-    const historyDiv = document.getElementById('page-p_history'); // p_history用の要素
-    const couponDiv = document.getElementById('page-coupon'); // coupon用の要素
-    if (currentPage === 'order') {
-      mainDiv.classList.add('u_hide');
-      ordersDiv.classList.remove('u_hide');
-      historyDiv.classList.add('u_hide');
-      couponDiv.classList.add('u_hide');
-    } else if (currentPage === 'p_history') {
-      mainDiv.classList.add('u_hide');
-      ordersDiv.classList.add('u_hide');
-      historyDiv.classList.remove('u_hide');
-      couponDiv.classList.add('u_hide');
-    } else if (currentPage === 'coupon') {
-      mainDiv.classList.add('u_hide');
-      ordersDiv.classList.add('u_hide');
-      historyDiv.classList.add('u_hide');
-      couponDiv.classList.remove('u_hide');
-    }
+  const pageElements = {
+    main: document.getElementById('page-main'),
+    order: document.getElementById('page-orders'),
+    p_history: document.getElementById('page-p_history'),
+    zendesk: document.getElementById('page-zendesk'),
+    coupon: document.getElementById('page-coupon'),
+  };
 
-    // order toggler
-    const toggleOrder = document.getElementsByClassName('js-order-toggler');
-    const toggledOrderBtns = toggleOrder[0].getElementsByClassName('o_customers__order-toggler__button');
-    [...toggledOrderBtns].map((btn) => {
-      btn.addEventListener('click', (e) => {
-        const target = e.target.dataset.target;
-        const toggledOrder = document.getElementsByClassName(target)[0];
+  // すべて非表示にする
+  Object.values(pageElements).forEach((element) => {
+    element?.classList.add('u_hide');
+  });
 
-        [...toggledOrderBtns].map((btn) => {
-          btn.classList.remove('is-active');
-        });
-        [...document.getElementsByClassName('js-toggled-order')].map((div) => {
-          div.classList.remove('is-active');
-        });
-        
-        toggledOrder.classList.add('is-active');
-        btn.classList.add('is-active');
+  // pages=zendesk など、指定ページだけ表示
+  // パラメータなし・不正値の場合はmainを表示
+  const pageName = pageElements[currentPage] ? currentPage : 'main';
+  pageElements[pageName]?.classList.remove('u_hide');
+
+  // order toggler
+  const toggleOrder = document.getElementsByClassName('js-order-toggler');
+  const toggledOrderBtns = toggleOrder[0].getElementsByClassName(
+    'o_customers__order-toggler__button'
+  );
+
+  [...toggledOrderBtns].map((btn) => {
+    btn.addEventListener('click', (e) => {
+      const target = e.currentTarget.dataset.target;
+      const toggledOrder = document.getElementsByClassName(target)[0];
+
+      [...toggledOrderBtns].map((button) => {
+        button.classList.remove('is-active');
       });
+
+      [...document.getElementsByClassName('js-toggled-order')].map((div) => {
+        div.classList.remove('is-active');
+      });
+
+      toggledOrder.classList.add('is-active');
+      e.currentTarget.classList.add('is-active');
     });
   });
+});
 </script>
 
 {% schema %}

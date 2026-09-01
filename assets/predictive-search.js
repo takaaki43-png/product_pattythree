@@ -190,12 +190,10 @@ class PredictiveSearch extends SearchForm {
       return;
     }
 
-    fetch(
-      `${routes.predictive_search_url}?q=${encodeURIComponent(
-        searchTerm
-      )}&section_id=predictive-search`,
-      { signal: this.abortController.signal }
-    )
+      fetch(
+        `${window.Shopify.routes.root}search?type=product&view=predictive&q=${encodeURIComponent(searchTerm)}`,
+        { signal: this.abortController.signal }
+      )
       .then((response) => {
         if (!response.ok) {
           var error = new Error(response.status);
