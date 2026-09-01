@@ -315,7 +315,7 @@ font-weight:bold;
     <div class="o_customers__menu-btn-wrap">
       <a href="{{ routes.account_url }}?pages=order" class="button o_customers__menu-btn u_hover">{% render 'icon-guide' %}注文履歴・発送状況</a>
       <a href="{{ routes.account_url }}?pages=p_history" class="button o_customers__menu-btn u_hover">{% render 'icon-point_a' %}ポイント履歴</a>
-      <a href="{{ routes.account_url }}?pages=zendesk" class="button o_customers__menu-btn u_hover">{% render 'icon-point_a' %}お問い合わせ履歴</a>
+     {% comment %} <a href="{{ routes.account_url }}?pages=zendesk" class="button o_customers__menu-btn u_hover">{% render 'icon-point_a' %}お問い合わせ履歴</a>{% endcomment %}
       <a href="{{ routes.account_url }}?pages=coupon" class="button o_customers__menu-btn u_hover">{% render 'icon-point_a' %}取得クーポン</a>
       {% comment %} <a href="#" class="button o_customers__menu-btn u_hover">{% render 'icon-account' %}会員情報・設定</a> {% endcomment %}
       <a href="{{routes.account_addresses_url}}" class="button o_customers__menu-btn u_hover">{% render 'icon-truck' %}お届け先住所</a>
