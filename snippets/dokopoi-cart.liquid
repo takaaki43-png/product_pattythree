@@ -1,0 +1,72 @@
+<script>
+  let shopdomain = "{{ shop.permanent_domain }}"
+  let cs_id = "{{ customer.id }}"
+  let totalprice = "{{ cart.total_price }}"
+  let csemail = "{{ customer.email }}"
+  let csfirst_name = "{{ customer.first_name }}"
+  let cslast_name = "{{ customer.last_name }}"
+  let currency = '{{ localization.country.currency.iso_code }}';
+  let dokopoi_line_item = {{ cart.items | json }};
+</script>
+{%- if cart != empty -%}
+  {%- if customer.id -%}
+    <div
+      id='dokopoiCartBody'
+      style='display:none; text-align:right; !important'
+    >
+      <div id='dokopoiDiscountPrice' style='display:none;'>
+        <span id='dokopoiDiscountPriceLabel'>割引金額</span>
+        <span id='dokopoiDiscountSymbol'>-¥</span>
+        <span id='dokopoiDiscountPriceFix'></span>
+      </div>
+      <div id='dokopoiMainLabel' style="display:none;">
+        <span id='dokopoiRemainingPointLabel'>現在のポイント</span
+        ><span id='dokopoiRemainingAfterPointLabel' style='display:none;'
+          >ポイント利用後の保有ポイント</span
+        ><span id='dokopoiRemainingPoint'></span
+        ><span id='dokopoiRemainingPointSymbol'>P</span>
+      </div>
+      <div id='erro_point' style='display:none;'>
+        <p id='dokopoiError1' style='display:none;'>ポイントが未入力です</p>
+        <p id='dokopoiError2' style='display:none;'>
+          小計以上のポイントは利用することができません
+        </p>
+        <p id='dokopoiError3' style='display:none;'>ポイントが超過しています</p>
+        <p id='dokopoiError4' style='display:none;'>
+          <span id='dokopoiRate'></span>Pポイントからご利用いただけます
+        </p>
+      </div>
+      <div class='dokopoiPointLabel' id='dokopoiPoint'></div>
+      <div class='dokopoiFieldGroup'>
+        <div
+          id='dokopoiPointField'>
+        </div>
+        <label id='dokopoiUsePointResultLabel' style='display:none;'
+          ><span id='dokopoiUsePointResultTitle'>利用ポイント</span
+          ><span id='dokopoiUsePointResult'></span
+          ><span id='dokopoiUsePointResultSymbol'>P</span></label
+        >
+        <div id='dokopoiSubmit'>
+        </div>
+        <div id='dokopoiReset'>
+        </div>
+        <p
+          class='visually-hidden'
+          data-cart-status
+          aria-live='polite'
+          role='status'
+        ></p>
+      </div>
+
+    </div>
+  {%- else -%}
+    <div id='dokopoiCartBody' style='display:none; text-align:right;'>
+      <p id='dokopoiLoginMidashi' for='point'>
+        ログインして購入でポイントが貯まります！
+      </p>
+
+    </div>
+  {%- endif -%}
+{%- endif -%}
+
+{{ 'dokopoi-css.css' | asset_url | stylesheet_tag }}

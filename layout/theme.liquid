@@ -1,0 +1,585 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+ 
+
+{% if settings.enable_maintenance_redirect and request.design_mode != true %}
+
+        {%- if customer and customer.tags contains '関係者' -%}
+        {% else %}
+ 
+        <meta http-equiv="refresh" content="0; URL=https://pattythree-shop-product.jp/pages/maintenance" />
+
+        {% endif %}
+
+ {% endif %}
+
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
+      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    {%- endunless -%}
+    
+    {% if request.path == "/collections" %}
+        {% layout none %}
+        <meta http-equiv="refresh" content="0; URL=/collections/all" />
+    {% endif %}
+
+
+
+
+    {%- if template contains 'product' %}
+    {% for tag in product.tags %}
+      {% if tag == '特典商品' %}
+        <meta http-equiv="refresh" content="0; URL=/collections/all" />
+      {% endif %}
+
+    {% endfor %}
+    {% endif %}
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    {% render 'meta-tags' %}
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-TDBMXHMM');</script>
+    <!-- End Google Tag Manager -->
+<script>  
+document.addEventListener('DOMContentLoaded', function() {
+    /*
+    const jsURL = 'https://static.customerfields.com/releases/4.14.0/customer-fields.js';
+    const cssURL = 'https://static.customerfields.com/releases/4.14.0/customer-fields.css';
+
+    
+    const currentURL = window.location.href;
+
+    if (currentURL === 'https://pattythree-shop-product.jp/tools/customr/edit-account') {
+    setTimeout(function() {
+        
+        var inputElement = document.querySelector("[data-cf-column-key='default_address.zip']");
+
+        
+        if(inputElement) {
+            inputElement.value = inputElement.value.replace(/-/g, "");
+        }
+    }, 2000);
+
+
+
+        
+        const scriptTag = document.createElement('script');
+        scriptTag.src = jsURL;
+        document.body.appendChild(scriptTag);
+        
+        
+        const linkTag = document.createElement('link');
+        linkTag.rel = 'stylesheet';
+        linkTag.href = cssURL;
+        document.head.appendChild(linkTag);
+    }
+  */
+});
+
+</script>
+
+    <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+    <script>
+      (function(d) {
+        var config = {
+          kitId: 'kri3ydd',
+          scriptTimeout: 3000,
+          async: true
+        },
+        h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+      })(document);
+    </script>
+    {{ content_for_header }}
+
+    {%- liquid
+      assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
+      assign body_font_italic = settings.type_body_font | font_modify: 'style', 'italic'
+      assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
+    %}
+
+    {% style %}
+      {{ settings.type_body_font | font_face: font_display: 'swap' }}
+      {{ body_font_bold | font_face: font_display: 'swap' }}
+      {{ body_font_italic | font_face: font_display: 'swap' }}
+      {{ body_font_bold_italic | font_face: font_display: 'swap' }}
+      {{ settings.type_header_font | font_face: font_display: 'swap' }}
+
+      :root {
+        --font-body-family: "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN, Hiragino Sans,"游ゴシック Medium", "游ゴシック体", "Yu Gothic Medium", "Yu Gothic", YuGothic, "メイリオ", Meiryo, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Ubuntu, Helvetica Neue, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+        --font-body-style: normal;
+        --font-body-weight: 400;
+        --font-body-weight-bold: 700;
+
+        --font-heading-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Ubuntu, Helvetica Neue, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+        --font-heading-style: normal;
+        --font-heading-weight: 400;
+
+        --font-body-scale: 1.0;
+        --font-heading-scale: 1.0;
+
+        --color-base-text: 0, 0, 0;
+        --color-shadow: 0, 0, 0;
+        --color-base-background-1: 255, 255, 255;
+        --color-base-background-2: 243, 243, 243;
+        --color-base-solid-button-labels: 255, 255, 255;
+        --color-base-outline-button-labels: 0, 0, 0;
+        --color-base-accent-1: 0, 0, 0;
+        --color-base-accent-2: 51, 79, 180;
+        --payment-terms-background-color: #ffffff;
+
+        --gradient-base-background-1: #ffffff;
+        --gradient-base-background-2: #f3f3f3;
+        --gradient-base-accent-1: #000000;
+        --gradient-base-accent-2: #334fb4;
+
+        --media-padding: px;
+        --media-border-opacity: 0.05;
+        --media-border-width: 1px;
+        --media-radius: 0px;
+        --media-shadow-opacity: 0.0;
+        --media-shadow-horizontal-offset: 0px;
+        --media-shadow-vertical-offset: 4px;
+        --media-shadow-blur-radius: 5px;
+        --media-shadow-visible: 0;
+
+        --page-width: 1040px;
+        --page-width-margin: 0rem;
+
+        --product-card-image-padding: 0.0rem;
+        --product-card-corner-radius: 0.0rem;
+        --product-card-text-alignment: left;
+        --product-card-border-width: 0.0rem;
+        --product-card-border-opacity: 0.1;
+        --product-card-shadow-opacity: 0.0;
+        --product-card-shadow-visible: 0;
+        --product-card-shadow-horizontal-offset: 0.0rem;
+        --product-card-shadow-vertical-offset: 0.4rem;
+        --product-card-shadow-blur-radius: 0.5rem;
+
+        --collection-card-image-padding: 0.6rem;
+        --collection-card-corner-radius: 0.0rem;
+        --collection-card-text-alignment: left;
+        --collection-card-border-width: 0.0rem;
+        --collection-card-border-opacity: 0.1;
+        --collection-card-shadow-opacity: 0.0;
+        --collection-card-shadow-visible: 0;
+        --collection-card-shadow-horizontal-offset: 0.0rem;
+        --collection-card-shadow-vertical-offset: 0.4rem;
+        --collection-card-shadow-blur-radius: 0.5rem;
+
+        --blog-card-image-padding: 0.0rem;
+        --blog-card-corner-radius: 0.0rem;
+        --blog-card-text-alignment: left;
+        --blog-card-border-width: 0.0rem;
+        --blog-card-border-opacity: 0.1;
+        --blog-card-shadow-opacity: 0.0;
+        --blog-card-shadow-visible: 0;
+        --blog-card-shadow-horizontal-offset: 0.0rem;
+        --blog-card-shadow-vertical-offset: 0.4rem;
+        --blog-card-shadow-blur-radius: 0.5rem;
+
+        --badge-corner-radius: 4.0rem;
+
+        --popup-border-width: 1px;
+        --popup-border-opacity: 0.1;
+        --popup-corner-radius: 0px;
+        --popup-shadow-opacity: 0.0;
+        --popup-shadow-horizontal-offset: 0px;
+        --popup-shadow-vertical-offset: 4px;
+        --popup-shadow-blur-radius: 5px;
+
+        --drawer-border-width: 1px;
+        --drawer-border-opacity: 0.1;
+        --drawer-shadow-opacity: 0.0;
+        --drawer-shadow-horizontal-offset: 0px;
+        --drawer-shadow-vertical-offset: 4px;
+        --drawer-shadow-blur-radius: 5px;
+        --icon-button-more: url({{ 'icon-arrow-circle.svg' | asset_url }});
+        --icon-button-more-yellow: url({{ 'icon-arrow-circle-yellow.svg' | asset_url }});
+        --spacing-sections-desktop: 0px;
+        --spacing-sections-mobile: 0px;
+
+        --grid-desktop-vertical-spacing: 16px;
+        --grid-desktop-horizontal-spacing: 24px;
+        --grid-mobile-vertical-spacing: 16px;
+        --grid-mobile-horizontal-spacing: 24px;
+
+        --text-boxes-border-opacity: 0.1;
+        --text-boxes-border-width: 0px;
+        --text-boxes-radius: 0px;
+        --text-boxes-shadow-opacity: 0.0;
+        --text-boxes-shadow-visible: 0;
+        --text-boxes-shadow-horizontal-offset: 0px;
+        --text-boxes-shadow-vertical-offset: 4px;
+        --text-boxes-shadow-blur-radius: 5px;
+
+        --buttons-radius: 0px;
+        --buttons-radius-outset: 0px;
+        --buttons-border-width: 1px;
+        --buttons-border-opacity: 1.0;
+        --buttons-shadow-opacity: 0.0;
+        --buttons-shadow-visible: 0;
+        --buttons-shadow-horizontal-offset: 0px;
+        --buttons-shadow-vertical-offset: 4px;
+        --buttons-shadow-blur-radius: 5px;
+        --buttons-border-offset: 0px;
+
+        --inputs-radius: 0px;
+        --inputs-border-width: 1px;
+        --inputs-border-opacity: 0.55;
+        --inputs-shadow-opacity: 0.0;
+        --inputs-shadow-horizontal-offset: 0px;
+        --inputs-margin-offset: 0px;
+        --inputs-shadow-vertical-offset: 4px;
+        --inputs-shadow-blur-radius: 5px;
+        --inputs-radius-outset: 0px;
+
+        --variant-pills-radius: 40px;
+        --variant-pills-border-width: 1px;
+        --variant-pills-border-opacity: 0.55;
+        --variant-pills-shadow-opacity: 0.0;
+        --variant-pills-shadow-horizontal-offset: 0px;
+        --variant-pills-shadow-vertical-offset: 4px;
+        --variant-pills-shadow-blur-radius: 5px;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: inherit;
+      }
+
+      html {
+        box-sizing: border-box;
+        font-size: calc(var(--font-body-scale) * 62.5%);
+        height: 100%;
+      }
+
+      body {
+        display: grid;
+        grid-template-rows: auto auto 1fr auto;
+        grid-template-columns: 100%;
+        min-height: 100%;
+        margin: 0;
+        font-size: 1.5rem;
+        letter-spacing: 0.06rem;
+        line-height: calc(1 + 0.8 / var(--font-body-scale));
+        font-family: var(--font-body-family);
+        font-style: var(--font-body-style);
+        font-weight: var(--font-body-weight);
+      }
+
+      @media screen and (min-width: 750px) {
+        body {
+          font-size: 1.6rem;
+        }
+      }
+      .a_button--more:before { background-image: var(--icon-button-more); }
+    {% endstyle %}
+
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css" rel="stylesheet" type="text/css" media="all" />
+    {%- unless settings.type_body_font.system? -%}
+      <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>
+    {%- endunless -%}
+    {%- unless settings.type_header_font.system? -%}
+      <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>
+    {%- endunless -%}
+
+    {%- if settings.predictive_search_enabled -%}
+      <link rel="stylesheet" href="{{ 'component-predictive-search.css' | asset_url }}" media="print" onload="this.media='all'">
+    {%- endif -%}
+    {{ 'style.css' | asset_url | stylesheet_tag }}
+
+    <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+    if (Shopify.designMode) {
+      document.documentElement.classList.add('shopify-design-mode');
+    }
+    </script>
+    {{ 'https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js' | script_tag }}
+  <script type="text/javascript">if(typeof window.hulkappsWishlist === 'undefined') {
+        window.hulkappsWishlist = {};
+        }
+        window.hulkappsWishlist.baseURL = '/apps/advanced-wishlist/api';
+        window.hulkappsWishlist.hasAppBlockSupport = '1';
+        </script>
+{% include 'sm-red' %}
+
+{% if request.design_mode %}
+{% else %}
+{%- if template contains 'index' -%}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    var main = document.getElementById('MainContent');
+    if (main) {
+        main.style.display = 'none';
+    }
+});
+     window.location.href = 'https://pattythree-shop-product.jp/collections/all';
+  </script>
+  {% endif %}
+  {% endif %}
+
+    
+{%- if template contains 'product' -%}
+<script>
+window.addEventListener('load', function() {
+  // Get all input elements with type 'radio'
+  var radioInputs = document.querySelectorAll('input[type="radio"]');
+
+  // Iterate over the radio inputs
+  radioInputs.forEach(function(input) {
+    // Add a click event listener to each radio button
+    input.addEventListener('click', function() {
+      // Delay the execution of the following code by 1 second
+      setTimeout(function() {
+        // Get the current URL
+        var url = new URL(window.location.href);
+
+        // Get the value from the radio button
+        var value = input.value;
+
+        // Add or update the 'style' parameter in the URL
+        url.searchParams.set('style', value);
+
+        // Change the URL without reloading the page
+        history.pushState({}, '', url);
+
+        // Now, reload the page with the updated URL
+        location.reload();
+      }, 1000);  // 1000 milliseconds = 1 second
+    });
+  });
+});
+
+</script>
+{% endif %}
+
+{%- if template contains 'product' %}
+{% for tag in product.tags %}
+  {% if tag == '特典商品' %}
+    {% assign prize_tag = true %}
+  {% endif %}
+
+{% endfor %}
+{% endif %}
+
+{%- if template contains 'cart' -%}
+
+<script>
+window.addEventListener('load', function() {
+    setInterval(function() {
+        var subtotalElement = document.querySelector('.totals__subtotal-value');
+        var checkoutButton = document.getElementById('checkout');  // チェックアウトボタンのIDを正しく指定してください。
+        if (subtotalElement && subtotalElement.textContent.trim() == '¥0') {
+            if (checkoutButton) {
+                checkoutButton.style.display = 'none';  // チェックアウトボタンを非表示にする
+            }
+
+        } else {
+            if (checkoutButton) {
+                checkoutButton.style.display = 'block';  // チェックアウトボタンを表示に戻す
+            }
+
+        }
+    }, 1000);  // 1秒ごとに実行
+});
+</script>
+{% endif %}
+{% comment %}
+2025.3.21
+ポイントと商品交換の実装にあたり非表示対応
+{% endcomment %}
+ {% if request.path == '/collections/point_item' %}
+<script>
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        // ページがキャッシュから復元された場合、リロード
+        location.reload();
+    }
+});
+
+
+    </script>
+{% endif %}
+{% if template contains 'product' and product.tags contains '非表示' %}
+  <meta http-equiv="refresh" content="0; url=/collections/all">
+{% endif %}
+
+
+
+
+</head>
+
+  <body class="gradient template-{{template.name}} 
+{% if collection.handle == "dreamlive-10th" or product.type == "スタライ10th" %}
+
+  dream-live-10th
+{% elsif collection.handle == "sp_sty" or product.type == "stream to you" %}
+  stream
+{% elsif collection.handle == "mdu-live" or product.tags contains "mdu-live" %}
+mdu-live
+{% endif %}
+">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+      <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TDBMXHMM" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <a class="skip-to-content-link button visually-hidden" href="#MainContent">
+      {{ "accessibility.skip_to_text" | t }}
+    </a>
+
+    {%- if settings.cart_type == 'drawer' -%}
+      {%- render 'cart-drawer' -%}
+    {%- endif -%}
+
+    {% sections 'header-group' %}
+
+    <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
+      {{ content_for_layout }}{%include 'recently-product-slider' %}
+    </main>
+
+    {% sections 'footer-group' %}
+
+    <ul hidden>
+      <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>
+      <li id="a11y-new-window-message">{{ 'accessibility.link_messages.new_window' | t }}</li>
+    </ul>
+
+    <script>
+      window.shopUrl = '{{ request.origin }}';
+      window.routes = {
+        cart_add_url: '{{ routes.cart_add_url }}',
+        cart_change_url: '{{ routes.cart_change_url }}',
+        cart_update_url: '{{ routes.cart_update_url }}',
+        cart_url: '{{ routes.cart_url }}',
+        predictive_search_url: '{{ routes.predictive_search_url }}'
+      };
+
+      window.cartStrings = {
+        error: `{{ 'sections.cart.cart_error' | t }}`,
+        quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t: quantity: '[quantity]' }}`
+      }
+
+      window.variantStrings = {
+        addToCart: `{{ 'products.product.add_to_cart' | t }}`,
+        soldOut: `{{ 'products.product.sold_out' | t }}`,
+        unavailable: `{{ 'products.product.unavailable' | t }}`,
+        unavailable_with_option: `{{ 'products.product.value_unavailable' | t: option_value: '[value]' }}`,
+      }
+
+      window.accessibilityStrings = {
+        imageAvailable: `{{ 'products.product.media.image_available' | t: index: '[index]' }}`,
+        shareSuccess: `{{ 'general.share.success_message' | t }}`,
+        pauseSlideshow: `{{ 'sections.slideshow.pause_slideshow' | t }}`,
+        playSlideshow: `{{ 'sections.slideshow.play_slideshow' | t }}`,
+      }
+    </script>
+    <script>
+      function toggleWishlist(slideTarget) {
+        const wishlistToggles = document.getElementsByClassName('js-wishlist-toggle');
+        const checkedTogglesLoad = new Event('checkedTogglesLoad'); // make event for wishlist toggles loaded
+
+        [...wishlistToggles].forEach((toggle) => {
+          if(!toggle.classList.contains('is-loaded')) {
+            toggle.addEventListener('click', (event) => {
+              event.preventDefault();
+              toggle.classList.toggle('is-added');
+            });
+            toggle.classList.add('is-loaded');
+          } 
+        });
+        // Event to signal that wishlist toggles are loaded
+        
+        if (typeof slideTarget !== 'undefined') {
+          console.log(slideTarget.parentElement.parentElement);
+          console.log(slideTarget);
+          if(slideTarget.parentElement.parentElement.classList.contains('js-checked-item-slider')){
+            console.log('ready to dispatch');
+            slideTarget.parentElement.parentElement.dispatchEvent(checkedTogglesLoad);
+          }else{
+            console.error('slideTarget.parentElement.parentElement doesnt have class "js-checked-item-slider" ')
+          }
+        }
+        
+      }
+      toggleWishlist();
+      [...document.getElementsByClassName('js-checked-item')].forEach((wrap)=>{
+        wrap.addEventListener('checkedLoad',(event)=>{
+          toggleWishlist(wrap);
+        });
+      });
+
+    </script>
+
+{%- if template contains 'customers' or template contains 'cart' -%}
+
+{%- if customer -%}
+ {%- if customer.tags contains '同意チェック済み_ver1' -%}
+ {%- else -%}
+<!-- モーダル本体 -->
+<div class="modal-container">
+	<div class="modal-body">
+		<!-- 閉じるボタン -->
+		<div class="modal-close">×</div>
+		<!-- モーダル内のコンテンツ -->
+		<div class="modal-content">
+<form data-cf-form="w6tDp5"></form>
+		</div>
+	</div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var close = document.querySelector('.modal-close');
+    var container = document.querySelector('.modal-container');
+
+    close.addEventListener('click', function () {
+        container.classList.remove('active');
+    });
+
+    // ページがロードされた後でモーダルを表示する場合
+    container.classList.add('active');
+});
+
+    </script>
+{%- endif -%}
+
+{%- endif -%}
+{%- endif -%}
+
+
+    {%- if settings.predictive_search_enabled -%}
+      <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+  {% include 'limitsify' %}
+	        
+</body>
+</html>

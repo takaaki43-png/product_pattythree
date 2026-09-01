@@ -1,0 +1,83 @@
+{{ 'component-news.css' | asset_url | stylesheet_tag }}
+<div class="section-oshirase">
+  <div class="l_section__header">
+    <div class="page-width">
+      <h2 class="l_section__header__title title l_section__header__title--image">
+        <img src="{{ 'section_news_img.svg' | asset_url }}" loading="lazy" class="l_section__header__title__image" alt="チェックしたアイテム" style="width:{{section.settings.image_width}}px" alt="お知らせ">
+      </h2>
+      <a class="twitter-timeline" data-lang="ja" data-width="500" data-height="550" href="https://twitter.com/es_favcake?ref_src=twsrc%5Etfw">Tweets by es_favcake</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+      {% if section.settings.blog != blank and section.settings.blog.articles_count %}
+        <div class="section-oshirase__list">
+          <ul>
+            {% assign articles = section.settings.blog.articles %}
+            {% for article in articles %}
+              {% if forloop.index <= section.settings.article_display_count %}
+                <li>
+                  <a href="{{article.url}}" class="section-oshirase__article">
+                    <div class="section-oshirase__text">
+                      <div class="section-oshirase__text__date">{{article.published_at | date: '%Y.%m.%d'}}</div>
+                      <div class="section-oshirase__text__title">{{article.title}}</div>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12.677" height="18.998" viewBox="0 0 12.677 18.998">
+                      <path id="パス_600" data-name="パス 600" d="M392.946,743.062l11.476-8.8-11.476-8.8" transform="translate(-392.245 -724.765)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"></path>
+                    </svg>
+                  </a>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+          {% if section.settings.blog.articles_count >= section.settings.article_display_count %}
+            <div class="center"><a href="{{section.settings.blog.url}}" class="a_button a_button--outline a_button--rounded section-oshirase__list__button">もっと見る</a></div>
+          {% endif %}
+        </div>
+      {% endif %}
+      
+    </div>
+  </div>
+</div>
+
+{% javascript %}
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "お知らせ - News",
+  "tag": "section",
+  "class": "section l_section l_section--oshirase",
+  "disabled_on": {
+    "groups": ["header"]
+  },
+  "settings":[
+    {
+      "type":"blog",
+      "id":"blog",
+      "label":"ブログ"
+    },
+    {
+      "type":"range",
+      "id":"image_width",
+      "label":"画像の幅",
+      "default": 100,
+      "min": 80,
+      "max": 300,
+      "step": 5,
+      "unit": "px"
+    },
+    {
+      "type":"range",
+      "id":"article_display_count",
+      "label":"表示する記事数",
+      "default": 3,
+      "min": 1,
+      "max": 15,
+      "step": 1,
+      "unit": "枚"
+    }
+  ],
+  "presets": [
+    {
+    "name": "お知らせ - News"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,533 @@
+<div class="reward{% if section.settings.full_width %} reward--full-width{% endif %}">
+
+  <div class="reward__wrapper page-width">
+
+{% if customer %}
+  {% if customer.orders_count == 0 %}
+  {% assign new_user = "true" %}
+    {% else %}
+  {% assign new_user = "false" %}
+  {% endif %}  
+{% else %}
+{% endif %}
+        
+    {% if section.settings.description != blank %}
+      <div class="reward__description rte">
+        {{ section.settings.description }}
+      </div>
+    {% endif %}
+    <div class="reward__content">
+      {%- assign reward_products = collections.point_item.products -%}
+      {% for product in reward_products %}
+
+        <div class="reward__item">
+            {% if product.media.first != blank %}
+              <div class="reward__image-wrapper" data-product-id="{{ product.id }}">
+                <img
+                  src="{% if product.has_only_default_variant %}{{ product.featured_image | img_url: '535x' }}{% else %}{{ product.selected_or_first_available_variant.image | img_url: '535x' }}{% endif %}"
+                  alt="{% if product.has_only_default_variant %}{{ product.featured_image.alt | escape }}{% else %}{{ product.selected_or_first_available_variant.image.alt | escape }}{% endif %}"
+                  loading="lazy"
+                  class="reward__image"
+                  width="535"
+                  height="535"
+                >
+              </div>
+            {% else %}
+              {{ 'product-1' | placeholder_svg_tag: 'reward__image placeholder' }}
+            {% endif %}
+            <div class="card__content">
+              <div class="card__information">
+                  {{ product.title | escape }}
+
+                <div class="reward-points">{{ product.metafields.dokopoi.reward_point | default: 0 }} ポイント</div>
+                <p>{{ product.metafields.dokopoi.itemtxt }}</p>
+                <reward-variant-selects
+                  class="product-form__variants"
+                  data-requires-shipping="{{ product.metafields.dokopoi.reward_requires_shipping | default: false }}"
+                  data-reward-point="{{ product.metafields.dokopoi.reward_point | default: 0 }}"
+                >
+                  <script type="application/json">
+                    {
+                      "id": {{ product.id | json }},
+                      "variants": {{ product.variants | json }},
+                      "images": {{ product.images | json }},
+                      "featured_image": {{ product.featured_image | json }},
+                      "has_only_default_variant": {{ product.has_only_default_variant | json }},
+                      "available": {{ product.available | json }}
+                    }
+                  </script>
+                  {% if product.has_only_default_variant == false %}
+                    {%- for option in product.options_with_values -%}
+                      <div class="product-form__option">
+                        <label class="form__label" for="Option-{{ forloop.index0 }}-{{ product.id }}">
+                          {{ option.name }}
+                        </label>
+                        <select
+                          id="Option-{{ forloop.index0 }}-{{ product.id }}"
+                          class="product-form__select"
+                          name="options[{{ option.name | escape }}]"
+                          data-option-index="{{ forloop.index0 }}"
+                        >
+                          {%- for value in option.values -%}
+                            <option
+                              value="{{ value | escape }}"
+                              {% if option.selected_value == value %}
+                                selected="selected"
+                              {% endif %}
+                            >
+                              {{ value }}
+                            </option>
+                          {%- endfor -%}
+                        </select>
+                      </div>
+                    {%- endfor -%}
+                  {% endif %}
+
+                  <div class="product-form__error-message-wrapper" role="alert" hidden>
+                    <span class="product-form__error-message"></span>
+                  </div>
+
+                  <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+
+              {% if customer %}
+                  <div class="product-form__error-messages">
+                    <p id="error-point-{{ product.id }}" class="error-message" style="display: none;">
+                      ポイントが不足しています
+                    </p>
+
+                    <p id="error-limit-{{ product.id }}" class="error-message" style="display: none;">
+                      交換上限に達しました
+                    </p>
+                    <p id="error-date-range-limit-{{ product.id }}" class="error-message" style="display: none;">
+                      交換期間外です
+                    </p>
+                  </div>
+              {% else %}
+                  <div class="product-form__error-messages">
+                    <p id="error-point-{{ product.id }}" class="error-message" style="display: none;">
+                      ログインしてください
+                    </p>
+                  </div>
+              {% endif %}
+                  {% if product.tags contains '初回購入特典' %}
+                  {% if new_user == "true" %}
+                    <button
+                    type="button"
+                    id="exchange-button-{{ product.id }}"
+                    class="button button--primary{% unless product.available %} disabled{% endunless %}"
+                    data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                    {% unless product.available %}
+                      disabled
+                    {% endunless %}
+                   {%- if product.available -%}
+                    {%- else -%}
+                      data-soldout="true"
+                    {%- endif -%}
+                  >
+                    {%- if product.available -%}
+                      交換する
+                    {%- else -%}
+                      在庫切れ
+                    {%- endif -%}
+                  </button>
+                   {%- else -%}
+                  <p class="button button--primary" style="background: #868686;border-radius: 20px;font-size: 1rem;">交換できません</p>
+                  {%- endif -%}
+                  {%- elsif product.tags contains 'coupon'  -%}
+                    {% if customer.tags contains 'email_opt_in' %}
+                      <button
+                        type="button"
+                        id="exchange-button-{{ product.id }}"
+                        class="button button--primary{% unless product.available %} disabled{% endunless %}"
+                        data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                        {% unless product.available %}
+                          disabled
+                        {% endunless %}
+                    {%- if product.available -%}
+                    {%- else -%}
+                      data-soldout="true"
+                    {%- endif -%}
+                      >
+                        {%- if product.available -%}
+                          交換する
+                        {%- else -%}
+                          在庫切れ
+                        {%- endif -%}
+                      </button>
+                    {%- else -%}
+                      {% if customer %}
+                        <a href="#" class="openModal button reward_coupon_btn" id="openModal">交換する</a>
+                      {% else %}
+                        <button
+                          type="button"
+                          id="exchange-button-{{ product.id }}"
+                          class="button button--primary{% unless product.available %} disabled{% endunless %}"
+                          data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                          {% unless product.available %}
+                            disabled
+                          {% endunless %}
+                    {%- if product.available -%}
+                    {%- else -%}
+                      data-soldout="true"
+                    {%- endif -%}
+                        >
+                          {%- if product.available -%}
+                            交換する
+                          {%- else -%}
+                            在庫切れ
+                          {%- endif -%}
+                        </button>
+                      {% endif %}
+
+                    {%- endif -%}
+
+                  {%- else -%}
+                  <button
+                    type="button"
+                    id="exchange-button-{{ product.id }}"
+                    class="button button--primary{% unless product.available %} disabled{% endunless %}"
+                    data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                    {% unless product.available %}
+                      disabled
+                    {% endunless %}
+                    {%- if product.available -%}
+                    {%- else -%}
+                      data-soldout="true"
+                    {%- endif -%}
+                  >
+                    {%- if product.available -%}
+                      交換する
+                    {%- else -%}
+                      在庫切れ
+                    {%- endif -%}
+                  </button>
+                   {%- endif -%}
+                  <p style="font-size:0.9rem;">{{ product.metafields.dokopoi.itemtxt_small }}</p>
+                </reward-variant-selects>
+              </div>
+            </div>
+          </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <form data-cf-form="6Rt217"></form>
+      <button class="closeModal close-btn">閉じる</button>
+    </div>
+  </div>
+  <!-- モーダル本体 -->
+<!-- モーダル本体 -->
+<div id="clearcart-modal" class="clearcart-modal hidden">
+  <div class="clearcart-modal-content">
+    <p>カートに商品が入っています。<br>このままポイント交換を行うとカート内の商品がリセットされます。<br>
+    ポイント交換に進みますか？</p>
+    <div class="clearcart-modal-actions">
+      <button id="confirm-clear-cart" class="btn btn-danger">ポイント交換する</button>
+      <a href="/cart" id="close-clear-cart" class="btn">お買い物にもどる</a>
+    </div>
+  </div>
+</div>
+
+<style>
+.hidden { display: none; }
+
+/* モーダル全体 */
+.clearcart-modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.6);
+  z-index: 1000;
+}
+
+/* コンテンツ部分 */
+.clearcart-modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  width: 95%;
+  max-width: 600px;
+}
+
+/* アクションボタン */
+.clearcart-modal-actions {
+  margin-top: 15px;
+}
+#close-clear-cart{
+  background: #f16a2b;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+}
+.btn { padding: 15px 25px; margin: 5px; cursor: pointer; }
+.btn-danger { background: rgba(0, 0, 0, 1); color: #fff; font-size: 14px;}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const modal = document.getElementById("clearcart-modal");
+  const closeBtn = document.getElementById("close-clear-cart");
+  const confirmBtn = document.getElementById("confirm-clear-cart");
+
+  // --- ページ表示時にカートを確認 ---
+  try {
+    const res = await fetch("/cart.js");
+    const cart = await res.json();
+
+    if (cart.item_count > 0) {
+      // カートに商品があればモーダル表示
+      modal.classList.remove("hidden");
+    }
+  } catch (e) {
+    console.error("カート情報取得エラー:", e);
+  }
+
+
+
+confirmBtn.addEventListener("click", async () => {
+  try {
+    await fetch("/cart/clear.js", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" }
+    });
+
+    modal.classList.add("hidden");
+    alert("カートを空にしました。");
+
+    // ページをリロードして最新状態を反映
+    location.reload();
+  } catch (err) {
+    console.error("カートクリア失敗:", err);
+    alert("カートを空にできませんでした。");
+  }
+});
+
+});
+</script>
+
+
+{{ 'reward.css' | asset_url | stylesheet_tag }}
+
+{% schema %}
+{
+  "name": "Reward",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "見出し",
+      "default": "リワード"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "説明"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "全幅表示",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Reward"
+    }
+  ]
+}
+{% endschema %}
+
+{% javascript %}
+
+  
+    document.querySelectorAll(".openModal").forEach(button => {
+      button.addEventListener("click", function(event) {
+        event.preventDefault();
+        document.querySelector(".modal").style.display = "block";
+      });
+    });
+    
+    document.querySelector(".closeModal").addEventListener("click", function() {
+      document.querySelector(".modal").style.display = "none";
+    });
+    
+    window.addEventListener("click", function(event) {
+      if (event.target.classList.contains("modal")) {
+        event.target.style.display = "none";
+      }
+    });
+  if (!window.submitExchange) {
+    window.submitExchange = async (variantId, element, productId, requiresShipping, rewardPoint) => {
+      if (!variantId) return;
+
+      // Disable all exchange buttons
+      document.querySelectorAll('[id^="exchange-button-"]').forEach((button) => {
+        button.disabled = true;
+      });
+
+      const url = '/apps/pointapi/exchange/shopifyproduct';
+      const params = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          variant_id: variantId,
+          product_id: productId,
+          requires_shipping: requiresShipping === 'true',
+          reward_point: parseInt(rewardPoint, 10),
+        }),
+      };
+
+      try {
+        const response = await fetch(url, params);
+        const data = await response.json();
+        if (data.status === 'success' && data.data.checkout_url) {
+          document.location = data.data.checkout_url;
+        } else {
+          // Hide all error messages first
+          document.querySelectorAll(`[id^="error-"][id$="-${productId}"]`).forEach((el) => {
+            el.style.display = 'none';
+          });
+
+          // Show specific error message based on error code
+          if (data.data.error_code === 'exchange_limit_error') {
+            document.getElementById(`error-limit-${productId}`).style.display = 'block';
+          } else if (data.data.error_code === 'exchange_point_error') {
+            document.getElementById(`error-point-${productId}`).style.display = 'block';
+          } else if (data.data.error_code === 'exchange_date_range_error') {
+            document.getElementById(`error-date-range-limit-${productId}`).style.display = 'block';
+          }
+
+          // Re-enable exchange button
+          document.querySelectorAll('[id^="exchange-button-"]').forEach((button) => {
+            button.disabled = false;
+          });
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        // On error, re-enable all exchange buttons
+        document.querySelectorAll('[id^="exchange-button-"]').forEach((button) => {
+          button.disabled = false;
+        });
+      }
+    };
+  }
+
+  if (!customElements.get('reward-variant-selects')) {
+    class RewardVariantSelects extends HTMLElement {
+      constructor() {
+        super();
+        this.setupEventListeners();
+        this.productData = JSON.parse(this.querySelector('script[type="application/json"]').textContent);
+        this.productId = this.productData.id;
+        this.requiresShipping = this.dataset.requiresShipping;
+        this.rewardPoint = this.dataset.rewardPoint;
+        this.updateButtonState();
+      }
+
+      setupEventListeners() {
+        this.querySelectorAll('select').forEach((select) => {
+          select.addEventListener('change', this.onVariantChange.bind(this));
+        });
+      }
+
+      onVariantChange(event) {
+        if (!event.target.matches('select')) return;
+        this.getSelectedOptions();
+        this.getSelectedVariant();
+        this.updateVariantInput();
+        this.updateVariantImage();
+        this.updateButtonState();
+      }
+
+      getSelectedOptions() {
+        this.options = Array.from(this.querySelectorAll('select'), (select) => select.value);
+      }
+
+      getSelectedVariant() {
+        if (!this.productData || !this.productData.variants) return;
+
+        this.currentVariant = this.productData.variants.find((variant) => {
+          return !variant.options
+            .map((option, index) => {
+              return this.options[index] === option;
+            })
+            .includes(false);
+        });
+      }
+
+      updateButtonState() {
+        const button = this.querySelector('button');
+        if (!button) return;
+
+        let isAvailable = false;
+        let variantId = null;
+
+        if (this.productData.has_only_default_variant) {
+          isAvailable = this.productData.available;
+          variantId = this.productData.variants[0].id;
+        } else if (this.currentVariant) {
+          isAvailable = this.currentVariant.available;
+          variantId = this.currentVariant.id;
+        } else {
+          isAvailable = this.productData.variants.some((variant) => variant.available);
+          variantId = this.productData.variants.find((v) => v.available)?.id;
+        }
+
+        if (!isAvailable) {
+          button.classList.add('disabled');
+          button.setAttribute('disabled', '');
+          button.textContent = '在庫切れ';
+        } else {
+          button.classList.remove('disabled');
+          button.removeAttribute('disabled');
+          button.textContent = '交換する';
+          button.setAttribute('data-variant-id', variantId);
+          button.onclick = () =>
+            submitExchange(variantId, button, this.productId, this.requiresShipping, this.rewardPoint);
+        }
+
+        // エラーメッセージの表示を更新
+        const stockError = document.querySelector(`#error-stock-${this.productId}`);
+        if (stockError) {
+          stockError.style.display = !isAvailable ? 'block' : 'none';
+        }
+      }
+
+      updateVariantInput() {
+        const input = this.querySelector('input[name="id"]');
+        if (input && this.currentVariant) {
+          input.value = this.currentVariant.id;
+        }
+      }
+
+      updateVariantImage() {
+        if (!this.currentVariant || !this.currentVariant.featured_image) return;
+
+        const imageWrapper = document.querySelector(`.reward__image-wrapper[data-product-id="${this.productId}"]`);
+        if (!imageWrapper) return;
+
+        const image = imageWrapper.querySelector('.reward__image');
+        if (!image) return;
+
+        const newImage = this.currentVariant.featured_image;
+        image.src = newImage.src;
+        image.alt = newImage.alt || '';
+      }
+    }
+
+    customElements.define('reward-variant-selects', RewardVariantSelects);
+  }
+
+  
+{% endjavascript %}

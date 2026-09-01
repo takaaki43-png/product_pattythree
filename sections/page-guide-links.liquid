@@ -1,0 +1,27 @@
+<div class="l_section__header">
+  <div class="page-width">
+    <div class="l_section__header__title title h3">HELP</div>
+  </div>
+  <div class="page-width">
+    <div class="u_flex u_jcSpaceAround">
+      {% for link in section.settings.links.links %}
+        <a href="{{ link.url }}">{{ link.title }}</a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Guide Links",
+  "tag": "section",
+  "class": "section l_section l_section--guide-links",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "links",
+      "label": "メニューを選択してください"
+    }
+  ]
+}
+{% endschema %}

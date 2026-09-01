@@ -1,0 +1,243 @@
+{{ 'component-cart.css' | asset_url | stylesheet_tag }}
+{{ 'component-totals.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'component-discounts.css' | asset_url | stylesheet_tag }}
+
+{% for tag in customer.tags %}
+  {% if tag == 'クーポン使用済み' %}
+    {% assign used_coupon_tag = true %}
+  {% endif %}
+{% endfor %}
+
+{% if used_coupon_tag %}
+  {% assign prize_item = false %}
+  {% for item in cart.items %}
+    {% if item.id == 45890079457595 %}
+      {% assign prize_item = true %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+{% if cart.item_count > 0 %}
+  {% assign simultaneous_purchase_tags = '同時購入不可A,同時購入不可B,同時購入不可C,同時購入不可D,同時購入不可E,同時購入不可F,同時購入不可G,同時購入不可H,同時購入不可I,同時購入不可J,同時購入不可K,同時購入不可L,同時購入不可M,同時購入不可N,同時購入不可O,同時購入不可P,同時購入不可Q,同時購入不可R,同時購入不可S,同時購入不可T,同時購入不可U,同時購入不可V,同時購入不可W,同時購入不可X,同時購入不可Y,同時購入不可Z' | split: ',' %}
+  {% assign simultaneous_purchase_found = false %}
+  {% assign not_allowed_products = '' %}
+  
+  {% for tag1 in simultaneous_purchase_tags %}
+    {% for tag2 in simultaneous_purchase_tags %}
+      {% if tag1 != tag2 %}
+        {% assign tag1_found = false %}
+        {% assign tag2_found = false %}
+        {% assign tag1_products = '' %}
+        {% assign tag2_products = '' %}
+        {% for item in cart.items %}
+          {% if item.product.tags contains tag1 %}
+            {% assign tag1_found = true %}
+            {% assign tag1_products = tag1_products | append: item.product.title | append: ',' %}
+          {% endif %}
+          {% if item.product.tags contains tag2 %}
+            {% assign tag2_found = true %}
+            {% assign tag2_products = tag2_products | append: item.product.title | append: ',' %}
+          {% endif %}
+          {% if tag1_found and tag2_found %}
+            {% assign simultaneous_purchase_found = true %}
+            {% comment %} 商品名を記録 {% endcomment %}
+            {% assign not_allowed_products = not_allowed_products | append: tag1_products | append: tag2_products %}
+            {% break %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+    {% if simultaneous_purchase_found %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+  
+  {% if simultaneous_purchase_found %}
+    <p style="display:none;">購入不可の商品名: {{ not_allowed_products | remove: ',' }}</p>
+    <style>
+      .cart__submit-controls { display: none; }
+    </style>
+  {% endif %}
+  
+
+{% endif %}
+
+<div class="page-width{% if cart == empty %} is-empty{% endif %}" id="main-cart-footer" data-id="{{ section.id }}">
+  <div>
+    <div class="cart__footer o_cart__footer u_pt0">
+      {%- if settings.show_cart_note -%}
+        <cart-note class="cart__note field">
+          <label for="Cart-note">{{ 'sections.cart.note' | t }}</label>
+          <textarea
+            class="text-area field__input"
+            name="note"
+            form="cart"
+            id="Cart-note"
+            placeholder="{{ 'sections.cart.note' | t }}"
+          >{{ cart.note }}</textarea>
+        </cart-note>
+      {%- endif -%}
+
+      <div id="prize_ch" class="cart__blocks">
+        {% for block in section.blocks %}
+          {%- case block.type -%}
+            {%- when '@app' -%}
+              {% render block %}
+            {%- when 'subtotal' -%}
+              <div class="js-contents u_wh100p" {{ block.shopify_attributes }}>
+                <div class="totals">
+                  <h2 class="totals__subtotal">{{ 'sections.cart.subtotal' | t }}</h2>
+                  <p class="totals__subtotal-value">{{ cart.total_price | money }}</p>
+                </div>
+
+                <div>
+                  {%- if cart.cart_level_discount_applications.size > 0 -%}
+                    <ul class="discounts list-unstyled" role="list" aria-label="{{ 'customer.order.discount' | t }}">
+                      {%- for discount in cart.cart_level_discount_applications -%}
+                        <li class="discounts__discount discounts__discount--position">
+                          {%- render 'icon-discount' -%}
+                          {{ discount.title }}
+                          (-{{ discount.total_allocated_amount | money }})
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+                </div>
+
+                <small class="tax-note caption-large rte">
+                  {%- if cart.taxes_included and shop.shipping_policy.body != blank -%}
+                    {{ 'sections.cart.taxes_included_and_shipping_policy_html' | t: link: shop.shipping_policy.url }}
+                  {%- elsif cart.taxes_included -%}
+                    {{ 'sections.cart.taxes_included_but_shipping_at_checkout' | t }}
+                  {%- elsif shop.shipping_policy.body != blank -%}
+                    {{ 'sections.cart.taxes_and_shipping_policy_at_checkout_html' | t: link: shop.shipping_policy.url }}
+                  {%- else -%}
+                    {{ 'sections.cart.taxes_and_shipping_at_checkout' | t }}
+                  {%- endif -%}
+                </small>
+              </div>
+            {%- else -%}
+            {% render 'dokopoi-cart' %}
+            {% render 'dokopoi-acquisition' %}
+              <div class="cart__ctas" {{ block.shopify_attributes }}>
+            {% if simultaneous_purchase_found %}
+              <p style="color:red;"><p style="color:red;">配送予定日が異なる商品が含まれている為、ご購入手続きへ進めません。<br>
+お手数ですが、カート内のいずれかの商品を削除しページを更新後、再度ご購入をお願い致します。 <br>
+<span style="font-size:10px;">{{ not_allowed_products | join: '<br>' }}</span>
+<br>
+※配送日予定日が異なりますと、まとめてお送りすることができません。<br>
+申し訳ございませんが、ご確認の程宜しくお願い致します。
+</p>
+
+            {% else %}
+               <noscript>
+                  <button type="submit" class="cart__update-button button button--secondary" form="cart">
+                    {{ 'sections.cart.update' | t }}
+                  </button>
+                </noscript>
+{%- if customer -%}
+          {% if prize_item == true %}
+                <a href="https://pattythree-shop-product.jp/cart/change?id=45890079457595&quantity=0#prize_ch" class="remove_anker cart__checkout-button button a_button a_button--rounded a_button--outline u_hover" style="background: #000;color: #fff;">注文を確定する</a>
+            {% else %}
+                <button
+                  type="submit"
+                  id="checkout"
+                  class="cart__checkout-button button a_button a_button--rounded u_hover"
+                  name="checkout"
+                  {% if cart == empty %}
+                    disabled
+                  {% endif %}
+                  form="cart"
+                >
+                {{ 'sections.cart.checkout' | t }}
+                </button>
+          {% endif %}
+          {% endif %}
+          {%- else -%}
+{% endif %}      
+              </div>
+
+        {%- comment -%}
+              {%- if additional_checkout_buttons -%}
+                <div class="cart__dynamic-checkout-buttons additional-checkout-buttons">
+                  {{ content_for_additional_checkout_buttons }}
+                </div>
+              {%- endif -%}
+            {%- endcomment -%}
+             {%- if customer -%}
+              {%- else -%}
+            <a href="{{ routes.account_url }}/login?return_url=%2Fcart" class="o_customers a_button a_button--rounded">ご購入手続きへ</a>
+            {%- endif -%}
+              <a href="{{routes.all_products_collection_url}}" class="cart__checkout-button button a_button a_button--rounded a_button--outline u_hover">ショッピングを続ける</a>
+          {%- endcase -%}
+        {% endfor %}
+
+        <div id="cart-errors"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    function isIE() {
+      const ua = window.navigator.userAgent;
+      const msie = ua.indexOf('MSIE ');
+      const trident = ua.indexOf('Trident/');
+
+      return msie > 0 || trident > 0;
+    }
+
+    if (!isIE()) return;
+    const cartSubmitInput = document.createElement('input');
+    cartSubmitInput.setAttribute('name', 'checkout');
+    cartSubmitInput.setAttribute('type', 'hidden');
+    document.querySelector('#cart').appendChild(cartSubmitInput);
+    document.querySelector('#checkout').addEventListener('click', function (event) {
+      document.querySelector('#cart').submit();
+    });
+  });
+  document.addEventListener('DOMContentLoaded', function() {
+    // 全ての.quantity__buttonにクリックイベントを設定
+    document.querySelectorAll('.quantity__button').forEach(function(button) {
+        button.addEventListener('click', function() {
+            setTimeout(function() {
+                location.reload(); // ページをリロード
+            }, 1000); // 1秒後にリロード
+        });
+    });
+});
+  document.addEventListener('DOMContentLoaded', function() {
+    // 全ての.cart-item__removeにクリックイベントを設定
+    document.querySelectorAll('.cart-item__remove').forEach(function(button) {
+        button.addEventListener('click', function() {
+            setTimeout(function() {
+                location.reload(); // ページをリロード
+            }, 1000); // 1秒後にリロード
+        });
+    });
+});
+
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.main-cart-footer.name",
+  "class": "cart__footer-wrapper",
+  "blocks": [
+    {
+      "type": "subtotal",
+      "name": "t:sections.main-cart-footer.blocks.subtotal.name",
+      "limit": 1
+    },
+    {
+      "type": "buttons",
+      "name": "t:sections.main-cart-footer.blocks.buttons.name",
+      "limit": 1
+    },
+    {
+      "type": "@app"
+    }
+  ]
+}
+{% endschema %}

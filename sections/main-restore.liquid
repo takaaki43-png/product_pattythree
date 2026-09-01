@@ -1,0 +1,24 @@
+<div class="page-width">
+  <div class="grid">
+    <div class="grid__item medium-up--one-half medium-up--push-one-quarter">
+      <div class="section-header">
+        <div class="form-vertical">
+          {% form 'recover_customer_password' %}
+
+            <h1 class="text-center">パスワードをお忘れですか？</h1>
+
+            <p class="text-center">パスワード再設定用のメールを送信します。<br>ご登録のメールアドレスをご入力ください。</p>
+
+						<label for="user_email">メールアドレス</label>
+						<p class="text-center">
+							<input type="email" value="" name="email" id="user_email">
+	
+							<input type="submit" class="btn text-center" value="送信">
+						</p>
+          {% endform %}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

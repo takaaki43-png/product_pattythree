@@ -1,0 +1,335 @@
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .o_customers{
+    --icon-account: url(data:image/svg+xml;base64,PHN2ZyAKICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIAogIGFyaWEtaGlkZGVuPSJ0cnVlIgogIGZvY3VzYWJsZT0iZmFsc2UiCiAgY2xhc3M9Imljb24gaWNvbi1hY2NvdW50IgogIGZpbGw9Im5vbmUiCiAgdmlld0JveD0iMCAwIDE4LjgwMSAyNS4xOTYiCj4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMzAxLjg1OSAtMjQuNSkiPgogICAgPHBhdGggZD0iTTUuMjM4LS41QTUuNzM4LDUuNzM4LDAsMSwxLS41LDUuMjM4LDUuNzQ0LDUuNzQ0LDAsMCwxLDUuMjM4LS41Wm0wLDEwLjQ3NUE0LjczOCw0LjczOCwwLDEsMCwuNSw1LjIzOCw0Ljc0Myw0Ljc0MywwLDAsMCw1LjIzOCw5Ljk3NVoiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMwNi4wMjIgMjUpIiBmaWxsPSJjdXJyZW50Q29sb3IiLz4KICAgIDxwYXRoIGQ9Ik02MjEuODYsNjYuNzM0aC0xNy44YS41LjUsMCwwLDEtLjUtLjUsMTQuMTExLDE0LjExMSwwLDAsMSwyLjQtOC4zMTgsOC43MDcsOC43MDcsMCwwLDEsMTQsMCwxNC4xMTIsMTQuMTEyLDAsMCwxLDIuNCw4LjMxOEEuNS41LDAsMCwxLDYyMS44Niw2Ni43MzRabS0xNy4yOTQtMWgxNi43ODdhMTIuODY4LDEyLjg2OCwwLDAsMC0yLjItNy4yMjUsNy43MDcsNy43MDcsMCwwLDAtMTIuMzg0LDBBMTIuODY3LDEyLjg2NywwLDAsMCw2MDQuNTY2LDY1LjczNFoiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0zMDEuNyAtMTcuMDM4KSIgZmlsbD0iY3VycmVudENvbG9yIi8+CiAgPC9nPgo8L3N2Zz4=);
+  }
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  .button-coupon {
+    border-radius: 21px;
+  }
+  .button-coupon img{
+    display: block;
+    width: 100%;
+    max-width: 62px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+.ar_b{
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 14px;
+}
+
+.ar_b dt {
+  flex-basis: 6%;
+  font-weight: bold;
+}
+
+.ar_b dd {
+  flex-basis: 94%;
+  margin:0px;
+  word-break: keep-all;
+}
+.ar_b dd b{
+font-weight:bold;
+}
+{%- endstyle -%}
+
+<div class="customer o_customers account section-{{ section.id }}-padding">
+  <div id="page-main">
+
+    {% render 'section-header-title', title: 'マイページ', title_en: 'MYPAGE', element: 'h1' %}
+    {% render 'dokopoi-customer' %}
+
+    {% comment %} {% render 'hulkapps-wishlist-account-btn' %} {% endcomment %}
+    <div class="o_customers__menu-btn-wrap">
+      <a href="{{ routes.account_url }}?pages=order" class="button o_customers__menu-btn u_hover">{% render 'icon-guide' %}注文履歴・発送状況</a>
+      <a href="{{ routes.account_url }}?pages=p_history" class="button o_customers__menu-btn u_hover">{% render 'icon-point_a' %}ポイント履歴</a>       <a href="{{ routes.account_url }}?pages=coupon" class="button o_customers__menu-btn u_hover">{% render 'icon-point_a' %}取得クーポン</a>
+      {% comment %} <a href="#" class="button o_customers__menu-btn u_hover">{% render 'icon-account' %}会員情報・設定</a> {% endcomment %}
+      <a href="{{routes.account_addresses_url}}" class="button o_customers__menu-btn u_hover">{% render 'icon-truck' %}お届け先住所</a>
+    </div>
+    <a href="{{ routes.account_logout_url }}" class="o_customers__btn o_customers__btn--small a_button a_button--rounded u_mt30 u_mt50sp" style="min-width:320px">
+      {{ 'customer.log_out' | t }}
+    </a>
+  </div>
+  <div id="page-coupon" class="u_hide">
+      <h1 class="o_customers__title">取得クーポン</h1>
+        {% assign now = 'now' | date: "%s" %}
+      {% assign has_valid_coupon = false %}
+      {% assign sorted_coupons = shop.metaobjects.mypage_coupon.values | sort: "open_data.value" %}
+
+      {% for coupon in sorted_coupons %}
+        {% assign display = coupon.display.value %}
+        {% assign discount_tag = coupon.discount_tag.value %}
+        {% assign hidden_tag = coupon.display_tag_hidden.value %}
+        {% assign open_ts = coupon.open_data.value | date: "%s" %}
+        {% assign close_ts = coupon.close_data.value | date: "%s" %}
+        
+        {% if display == true %}
+          {% if customer.tags contains discount_tag %}
+            {% if now >= open_ts and now <= close_ts %}
+              {% unless customer.tags contains hidden_tag %}
+                {% assign has_valid_coupon = true %}
+                <div class="coupon coupon_card">
+                  <div class="coupon_card-text">
+                    <div class="coupon_card-title">
+                      クーポンコード「{{ coupon.discount_code.value }}」
+                    </div>
+                    <div class="coupon_card-description">
+                      有効期間 {{ coupon.close_data.value | date: "%Y/%m/%d %H:%M" }}迄
+                    </div>
+                  </div>
+                  <a href="/discount/{{ coupon.discount_code.value }}?redirect=/cart" class="coupon_card-button">
+                    クーポンを適用
+                  </a>
+                </div>
+              {% endunless %}
+            {% endif %}
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+      
+      {% unless has_valid_coupon %}
+        <p>現在取得されているクーポンはありません。</p>
+      {% endunless %}
+
+    </div>
+    <div id="page-p_history" class="u_hide">
+          <h1 class="o_customers__title">ポイント履歴</h1>
+        {% render 'dokopoi-pointhistory' %}
+    </div>  
+  <div id="page-orders" class="u_hide">
+
+    <h1 class="o_customers__title">注文履歴・発送状況</h1>
+    <!--
+    <div class="o_customers__order-toggler js-order-toggler">
+      <button class="o_customers__order-toggler__button o_customers__order-toggler__button--before u_hover is-active" data-target="js-toggled-order--before">発送前</button>
+      <button class="o_customers__order-toggler__button o_customers__order-toggler__button--after u_hover" data-target="js-toggled-order--after">発送済み</button>
+    </div>
+    -->
+    
+
+    <div class="o_customers__order-wrap js-toggled-order js-toggled-order--before is-active">
+      {% paginate customer.orders by 10 %}
+      {%- if customer.orders.size > 0 -%}
+
+        {%- for order in customer.orders-%}
+          {% render 'customers-order-table', theOrder: order %}
+
+        {%- endfor -%}
+         
+
+      {%- else -%}
+        <p>{{ 'customer.orders.none' | t }}</p>
+      {%- endif -%}
+              {%- if paginate.pages > 1 -%}
+          {%- if paginate.parts.size > 0 -%}
+            <div class="default_pagination">
+         {% assign page_url = paginate | default_pagination | split:'"' %}
+         {% for url in page_url %}
+         {% if url contains '?page=' %}
+           {{ url | append: '&pages=order' }}
+         {% else %}
+            {{ url }}
+          {% endif %}
+          {% endfor %}
+        </div>
+          {%- endif -%}
+        {%- endif -%}
+    
+{% endpaginate %}
+      <br>
+<button id="history-button" style="display:block; margin: 0 auto;">過去の注文履歴が表示されない場合はこちらをクリック</button>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  var historyButton = document.getElementById("history-button");
+  
+  // 現在のURLを取得
+  var currentUrl = window.location.href;
+  
+  // 現在のページ番号を取得
+  var urlParams = new URLSearchParams(window.location.search);
+  var currentPage = parseInt(urlParams.get("page")) || 1;
+
+  
+  historyButton.addEventListener("click", function() {
+    // pageを加算
+    currentPage++;
+    
+    // 新しいURLを作成し、リダイレクト
+    var newUrl = updateUrlParameter(currentUrl, "page", currentPage);
+    window.location.href = newUrl;
+  });
+});
+
+// URLの特定のクエリパラメータを更新するためのヘルパー関数
+function updateUrlParameter(url, param, value) {
+  var urlParams = new URLSearchParams(window.location.search);
+  urlParams.set(param, value);
+  return window.location.pathname + '?' + urlParams.toString();
+}
+</script>
+
+      
+      {% if false %}
+        {%- if paginate.pages > 1 -%}
+          {%- if paginate.parts.size > 0 -%}
+            <nav class="pagination" role="navigation" aria-label="{{ 'general.pagination.label' | t }}">
+              <ul role="list">
+                {%- if paginate.previous -%}
+                  <li>
+                    <a href="{{ paginate.previous.url }}" aria-label="{{ 'general.pagination.previous' | t }}">
+                      <svg aria-hidden="true" focusable="false" viewBox="0 0 10 6">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
+                      </svg>
+                    </a>
+                  </li>
+                {%- endif -%}
+
+                {%- for part in paginate.parts -%}
+                  <li>
+                    {%- if part.is_link -%}
+                      <a href="{{ part.url }}" aria-label="{{ 'general.pagination.page' | t: number: part.title }}">
+                        {{- part.title -}}
+                      </a>
+                    {%- else -%}
+                      {%- if part.title == paginate.current_page -%}
+                        <span aria-current="page" aria-label="{{ 'general.pagination.page' | t: number: part.title }}">
+                          {{- part.title -}}
+                        </span>
+                      {%- else -%}
+                        <span>{{ part.title }}</span>
+                      {%- endif -%}
+                    {%- endif -%}
+                  </li>
+                {%- endfor -%}
+
+                {%- if paginate.next -%}
+                  <li>
+                    <a href="{{ paginate.next.url }}" aria-label="{{ 'general.pagination.next' | t }}">
+                      <svg aria-hidden="true" focusable="false" viewBox="0 0 10 6">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
+                      </svg>
+                    </a>
+                  </li>
+                {%- endif -%}
+              </ul>
+            </nav>
+          {%- endif -%}
+        {%- endif -%}
+      {% endif %}
+    </div>
+    <div class="o_customers__order-wrap js-toggled-order js-toggled-order--after">
+      {%- if sentOrders.size > 0 -%}
+        {%- for order in sentOrders-%}
+          {% render 'customers-order-table_sent', theOrder: order %}
+        {%- endfor -%}
+      {%- else -%}
+        <p>{{ 'customer.orders.none' | t }}</p>
+      {%- endif -%}
+    </div>
+
+    <a href="{{ routes.account_url }}" class="o_customers__btn o_customers__btn--small a_button a_button--rounded u_mt130 u_mt50sp" style="min-width:320px">マイページトップ</a>
+  </div>
+  {% for block in section.blocks %}
+    {% case block.type %}
+      {% when '@app' %}
+        {% render block %}
+    {% endcase %}
+  {% endfor %}
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // page toggler
+    const targetParameter = 'pages'; // 'page'以外のパラメーター
+    const currentPage = new URLSearchParams(window.location.search).get(targetParameter); // 'page'を 'pages' に変更
+
+    const mainDiv = document.getElementById('page-main');
+    const ordersDiv = document.getElementById('page-orders');
+    const historyDiv = document.getElementById('page-p_history'); // p_history用の要素
+    const couponDiv = document.getElementById('page-coupon'); // coupon用の要素
+    if (currentPage === 'order') {
+      mainDiv.classList.add('u_hide');
+      ordersDiv.classList.remove('u_hide');
+      historyDiv.classList.add('u_hide');
+      couponDiv.classList.add('u_hide');
+    } else if (currentPage === 'p_history') {
+      mainDiv.classList.add('u_hide');
+      ordersDiv.classList.add('u_hide');
+      historyDiv.classList.remove('u_hide');
+      couponDiv.classList.add('u_hide');
+    } else if (currentPage === 'coupon') {
+      mainDiv.classList.add('u_hide');
+      ordersDiv.classList.add('u_hide');
+      historyDiv.classList.add('u_hide');
+      couponDiv.classList.remove('u_hide');
+    }
+
+    // order toggler
+    const toggleOrder = document.getElementsByClassName('js-order-toggler');
+    const toggledOrderBtns = toggleOrder[0].getElementsByClassName('o_customers__order-toggler__button');
+    [...toggledOrderBtns].map((btn) => {
+      btn.addEventListener('click', (e) => {
+        const target = e.target.dataset.target;
+        const toggledOrder = document.getElementsByClassName(target)[0];
+
+        [...toggledOrderBtns].map((btn) => {
+          btn.classList.remove('is-active');
+        });
+        [...document.getElementsByClassName('js-toggled-order')].map((div) => {
+          div.classList.remove('is-active');
+        });
+        
+        toggledOrder.classList.add('is-active');
+        btn.classList.add('is-active');
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.main-account.name",
+  "blocks": [
+    {
+      "type": "@app"
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ]
+}
+{% endschema %}

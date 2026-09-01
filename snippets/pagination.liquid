@@ -1,0 +1,63 @@
+{% comment %}
+  Renders a set of links for paginated results. Must be used within paginate tags.
+
+  Usage:
+  {% paginate results by 2 %}
+    {% render 'pagination', paginate: paginate, anchor: '#yourID' %}
+  {% endpaginate %}
+
+  Accepts:
+  - paginate: {Object}
+  - classes: {String} (optional) Classes to add to the pagination wrapper.
+  - anchor: {String} (optional) This can be added so that on page reload it takes you to wherever you've placed your anchor tag.
+{% endcomment %}
+
+{{ 'component-pagination.css' | asset_url | stylesheet_tag }}
+
+{%- if paginate.parts.size > 0 -%}
+  <div class="pagination-wrapper{% if classes %} {{classes}}{% endif %}">
+    <nav class="pagination" role="navigation" aria-label="{{ 'general.pagination.label' | t }}">
+      <ul class="pagination__list list-unstyled" role="list">
+        
+          <li class="pagination__list__prev">
+            {%- if paginate.previous -%}
+            <a
+              href="{{ paginate.previous.url }}&type=product{{ anchor }}"
+              class="pagination__item pagination__item--prev pagination__item-arrow link motion-reduce"
+              aria-label="{{ 'general.pagination.previous' | t }}"
+            >
+              <img src="{{ 'icon-arrow-circle.svg' | asset_url }}" alt="ICON" aria-hidden="true" class="icon pagination__item__arrow-icon">
+            </a>
+            {%- endif -%}
+          </li>
+        
+
+        {%- for part in paginate.parts -%}
+          {%- if part.title == paginate.current_page -%}
+            <li>
+              <span class="pagination__item">{{ part.title | prepend: '00' | slice: -2, 2 }}</span>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+        <li><span class="pagination__item"> / </span></li>
+        <li>
+          <span class="pagination__item">{{ paginate.pages | prepend: '00' | slice: -2, 2 }}</span>
+        </li>
+
+        
+          <li class="pagination__list__next">
+            {%- if paginate.next -%}
+            <a
+              href="{{ paginate.next.url }}&type=product{{ anchor }}"
+              class="pagination__item pagination__item--next pagination__item-arrow link motion-reduce"
+              aria-label="{{ 'general.pagination.next' | t }}"
+            >
+              <img src="{{ 'icon-arrow-circle.svg' | asset_url }}" alt="ICON" aria-hidden="true" class="icon pagination__item__arrow-icon">
+            </a>
+            {%- endif -%}
+          </li>
+        
+      </ul>
+    </nav>
+  </div>
+{%- endif -%}

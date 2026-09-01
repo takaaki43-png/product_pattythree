@@ -1,0 +1,20 @@
+{% comment %}
+  Renders section header title.
+
+  Accepts:
+  - title: {String} section title, usually in Japanese.
+  - title_en: {String} section english text subtitle.
+  - element: {String} The html tag used for title. Default is 'h2'.
+  - classes: {String} Additional classes to add to the title element (optional).
+  - attr: {String} Additional attributes to add to the title element (optional).
+  Usage:
+  {% render 'section-header-title', title: 'お知らせ', title_en: 'NEWS', element: 'h1' %}
+{% endcomment %}
+{% assign element = element | default: 'h2' %}
+<{{ element }} class="l_section__header__title title{% if classes %} {{classes}}{% endif %}"{% if attr %} {{attr}}{% endif %}>
+  <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
+  {% if title_en != blank %}
+    <span class="l_section__header__title__en">{{title_en}}</span>
+  {% endif %}
+  <span class="l_section__header__title__text">{{title}}</span>
+</{{ element }}>

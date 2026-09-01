@@ -1,0 +1,87 @@
+<div class="l_section__header collection-hero color-background-1 gradient">
+  <div class="collection-hero__inner page-width">
+    <div class="collection-hero__text-wrapper">
+      <h1 class="l_section__header__title title l_section__header__title--search">
+        <span class="l_section__header__title__text">ご利用ガイド</span>
+      </h1>
+    </div>
+  </div>
+  <div class="page-width">
+    <div class="guide_nav u_flex u_jcSpaceBetween u_flexwrap">
+      {% for link in section.settings.links.links %}
+        <a href="{{ link.url }}">{{ link.title }}</a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<script>
+document.querySelectorAll('.guide_nav a').forEach(a => {
+  if (a.href === window.location.href) {
+    a.classList.add('active');
+  }
+});
+</script>
+{%- style -%}
+
+.guide_nav a.active {
+  background: #000;
+    color:#fff;
+
+}
+
+.guide_nav a.active:hover {
+  background: #000;
+  color:#fff;
+}
+
+   @media screen and (max-width: 750px) {
+.u_flexwrap{
+  flex-wrap: wrap;
+}
+  .u_jcSpaceBetween a{
+  border: 1px solid #000;
+  border-radius: 19px;
+  padding: 5px 0px;
+  width: 32% ;
+  text-align: center;
+  font-size:12px;
+  color:#000;
+  text-decoration:none;
+  margin-bottom:10px;
+  letter-spacing: -0.5px;
+}
+   .l_section__header__title__text{
+    margin-bottom:35px;
+  }
+}
+@media screen and (min-width: 751px) {
+.u_jcSpaceBetween a{
+  border: 1px solid #000;
+  border-radius: 19px;
+  padding: 5px 20px;
+  width: 145px;
+  text-align: center;
+  font-size:11px;
+  color:#000;
+  text-decoration:none;
+}
+  .l_section__header__title__text{
+    margin-bottom:120px;
+  }
+  }
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "Guide Navigation",
+  "tag": "section",
+  "class": "section l_section l_section--guide-nav",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "links",
+      "label": "メニューを選択してください"
+    }
+  ]
+}
+{% endschema %}

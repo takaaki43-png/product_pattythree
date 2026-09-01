@@ -1,0 +1,119 @@
+{%- if section.settings.sticky_menu -%}
+<div class="l_footer__nav">
+  <div class="page-width">
+    <div class="l_footer__nav__list">
+      <div class="l_footer__nav__list__item">
+        <a id="cart-icon-bubble" href="{{ routes.cart_url }}" class="l_footer__nav__link u_hover">
+          <span class="l_footer__nav__link__icon">
+            {% render 'icon-cart-empty' %}
+          </span>
+          <span class="l_footer__nav__link__text">カート</span>
+          {%- if cart != empty -%}
+            <div class="cart-count-bubble">
+              <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
+            </div>
+          {%- endif -%}
+        </a>
+      </div>
+      <div class="l_footer__nav__list__item">
+        <a href="{{ routes.root_url }}apps/advanced-wishlist" class="l_footer__nav__link u_hover">
+          <span class="l_footer__nav__link__icon">
+            {% render 'icon-heart-thick' %}
+          </span>
+          <span class="l_footer__nav__link__text">お気に入り</span>
+        </a>
+      </div>
+      {%- if shop.customer_accounts_enabled -%}
+      <div class="l_footer__nav__list__item">
+        <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" class="l_footer__nav__link u_hover">
+          <span class="l_footer__nav__link__icon">
+            {% render 'icon-account-thick' %}
+          </span>
+          <span class="l_footer__nav__link__text">
+            {%- liquid
+              if customer
+                echo 'customer.account_fallback' | t
+              else
+                echo 'customer.log_in' | t
+              endif
+            -%}
+          </span>
+        </a>
+      </div>
+      {%- endif -%}
+      <div class="l_footer__nav__list__item">
+        <button class="l_footer__nav__link js-menu-open u_hover">
+          <span class="l_footer__nav__link__icon">
+            {% render 'icon-drawer' %}
+          </span>
+          <span class="l_footer__nav__link__text">探す</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+{%- endif -%}
+
+{% javascript %}
+document.addEventListener("DOMContentLoaded",()=>{
+  const menuOpenBtn = document.querySelector(".js-menu-open");
+  const menuDrawer = document.getElementById("menu-drawer");
+  const headerTop = document.querySelector('.l_header__top');
+
+  const headerTopH = ()=>{
+    headerTop.dataset.height = headerTop.offsetHeight;
+  }
+  
+  const openMenu = ()=>{
+    const header = document.querySelector('.section-header');
+    const borderOffset = header.querySelector('.header-wrapper').classList.contains('header-wrapper--border-bottom') ? 1 : 0;
+    const mainDetailsToggle = header.querySelector('details');
+    const summaryElement = mainDetailsToggle.querySelector('summary');
+
+    document.documentElement.style.setProperty('--header-bottom-position', `${parseInt(header.getBoundingClientRect().bottom - borderOffset)}px`);
+    header.classList.add('menu-open');
+    setTimeout(() => {
+      mainDetailsToggle.classList.add('menu-opening');
+      mainDetailsToggle.setAttribute('open',true);
+    });
+    summaryElement.setAttribute('aria-expanded', true);
+    document.body.classList.add(`overflow-hidden-${document.querySelector('header-drawer').dataset.breakpoint}`);
+  }
+  const menuH = ()=>{
+    menuDrawer.style.height = `calc(100vh - ${headerTop.dataset.height}px)`;
+    menuDrawer.style.top = `${headerTop.dataset.height}px`;
+    document.querySelector('.l_header').style.setProperty('--overlay-offset', `${headerTop.dataset.height}px`);
+  }
+
+  //run scripts
+  headerTopH();
+  menuH();
+  window.addEventListener('resize', ()=>{
+    headerTopH();
+    menuH();
+  });
+
+  menuOpenBtn.addEventListener("click",()=>{
+    menuOpenBtn.classList.add("is-open");
+    openMenu();
+  });
+
+},false);
+
+{% endjavascript %}
+
+{% schema %}
+  {
+    "name": "t:sections.footer.settings.sticky_menu.heading",
+    "class": "l_footer__sticky",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "sticky_menu",
+        "default": true,
+        "label": "t:sections.footer.settings.sticky_menu.label",
+        "info": "t:sections.footer.settings.sticky_menu.info"
+      }
+    ]
+  }
+{% endschema %}

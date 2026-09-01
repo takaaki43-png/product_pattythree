@@ -1,0 +1,82 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.header.name",
+  "type": "header",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "disabled": true,
+      "blocks": {
+        "announcement-bar-0": {
+          "type": "announcement",
+          "settings": {
+            "text": "Welcome to our store",
+            "text_alignment": "center",
+            "color_scheme": "accent-2",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "announcement-bar-0"
+      ],
+      "settings": {}
+    },
+    "header": {
+      "type": "header",
+      "blocks": {
+        "6a3199ee-a897-4f26-8f53-d06ef14a4763": {
+          "type": "nav",
+          "settings": {
+            "links": "header-menu"
+          }
+        },
+        "edc50843-dc08-4fc0-b14e-af53c8172116": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "title": "すべての商品を見る",
+            "button_url": "shopify://collections/all"
+          }
+        },
+        "f8a4039b-93e6-4cdb-b792-03f87588d2bb": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "title": "お気に入り",
+            "button_url": "#"
+          }
+        }
+      },
+      "block_order": [
+        "6a3199ee-a897-4f26-8f53-d06ef14a4763",
+        "edc50843-dc08-4fc0-b14e-af53c8172116",
+        "f8a4039b-93e6-4cdb-b792-03f87588d2bb"
+      ],
+      "settings": {
+        "menu": "drawer-menu",
+        "menu_type_desktop": "drawer",
+        "sticky_header_type": "none",
+        "show_line_separator": false,
+        "color_scheme": "bg-brand-1",
+        "enable_country_selector": false,
+        "enable_language_selector": false,
+        "margin_bottom": 0,
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    }
+  },
+  "order": [
+    "announcement-bar",
+    "header"
+  ]
+}

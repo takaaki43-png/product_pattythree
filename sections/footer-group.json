@@ -1,0 +1,61 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "external_links": {
+          "type": "external_links",
+          "settings": {
+            "title": "外部リンク",
+            "menu": "footer-external"
+          }
+        },
+        "link_list": {
+          "type": "link_list",
+          "settings": {
+            "heading": "",
+            "menu": "footer"
+          }
+        }
+      },
+      "block_order": [
+        "external_links",
+        "link_list"
+      ],
+      "settings": {
+        "color_scheme": "background-1",
+        "buttons": "footer-buttons",
+        "newsletter_enable": false,
+        "newsletter_heading": "Subscribe to our emails",
+        "enable_follow_on_shop": false,
+        "show_social": false,
+        "enable_country_selector": false,
+        "enable_language_selector": false,
+        "payment_enable": false,
+        "show_policy": false,
+        "margin_top": 48
+      }
+    },
+    "footer-sticky": {
+      "type": "footer-sticky-nav",
+      "settings": {
+        "sticky_menu": true
+      }
+    }
+  },
+  "order": [
+    "footer",
+    "footer-sticky"
+  ]
+}

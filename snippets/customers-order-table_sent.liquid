@@ -1,0 +1,35 @@
+<div class="o_customers__order-table" >
+  <div class="o_customers__order-table__cell o_customers__order-table__cell--title o_customers__order-table__cell--title-num">注文番号</div>
+  <div class="o_customers__order-table__cell o_customers__order-table__cell--num">
+    {{ theOrder.name }}
+  </div>
+  <div class="o_customers__order-table__cell o_customers__order-table__cell--title o_customers__order-table__cell--title-date">注文日時</div>
+  <div class="o_customers__order-table__cell o_customers__order-table__cell--date">
+    {{ theOrder.created_at | date:'%Y年%m月%d日' }}
+  </div>
+  <div class="o_customers__order-table__cell o_customers__order-table__cell--title o_customers__order-table__cell--title-ammount">商品点数</div>
+  <div class="o_customers__order-table__cell o_customers__order-table__cell--ammount">
+    <div class="o_customers__order-table__cell__point">
+      <span>{{theOrder.item_count}}</span>
+      <span class="o_customers__order-table__cell__point__symbol">点</span>
+    </div>
+  </div>
+  <div class="o_customers__order-table__cell o_customers__order-table__cell--action">
+    <div class="o_customers__order-table__footer">
+      <div class="o_customers__order-table__footer__total">
+        <div class="o_customers__order-table__footer__total__text">合計金額</div>
+        <div class="o_customers__order-table__footer__total__price">{{ theOrder.total_net_amount | money }}</div>
+      </div>
+      <div class="o_customers__order-table__footer__buttons">
+
+          <a class="o_customers__order-table__footer_invoice" target="_blank" href="https://pattythree-shop-product.jp/apps/download-pdf/orders/00daccaa46d3436e1e8d/{{ theOrder.id | times: 7353 }}/{{ theOrder.name | handleize }}.pdf">領収書を表示する</a>
+
+        {% if theOrder.tags contains "注文編集済み" %}
+        <a href="{{ theOrder.order_status_url }}" target="_blank" class="o_customers__order-table__footer__buttons__button u_hover">詳細を確認する</a>
+        {% else %}  
+        <a href="{{ theOrder.customer_url }}" class="o_customers__order-table__footer__buttons__button u_hover">詳細を確認する</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

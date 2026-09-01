@@ -1,0 +1,173 @@
+<style>
+  .m_checked-items-wrapper .swiper-button-next,.m_checked-items-wrapper .swiper-button-prev{
+    top: 109px;
+  }
+  @media screen and (max-width: 767px){
+    .m_checked-items-wrapper .swiper-button-next,.m_checked-items-wrapper .swiper-button-prev{
+      top: 23vw;
+    }
+  }
+  .m_checked-items-wrapper .swiper-button-next::after, .swiper-button-prev::after{
+    content:'';
+    font-size: 30px;
+    width:17px;
+    height:17px;
+    background: url({{ 'icon-arrow-circle.svg' | asset_url }}) no-repeat center center / contain;
+  }
+  .m_checked-items-wrapper .swiper-button-next{
+    right:1px;
+  }
+  .m_checked-items-wrapper .swiper-button-next::after{
+    transform: rotate(270deg);
+  }
+  .m_checked-items-wrapper .swiper-button-prev{
+    left:0;
+  }
+  .m_checked-items-wrapper .swiper-button-prev::after{
+    transform: rotate(90deg);
+  }
+</style>
+<div class="{{section.settings.classes}}">
+  <div class="m_checked-items-wrapper">
+    <div class="l_section__header">
+      <div class="page-width"> 
+        {% render 'section-header-title', title: 'チェックしたアイテム', title_en: 'CHECKED ITEM', classes: 'l_section__header__title--bordered' %}
+      </div>
+    </div>
+    
+    <div class="page-width">
+      <div class="swiper js-checked-item-slider">
+        <div class="swiper-wrapper m_checked-items js-checked-item">
+        </div>
+        <div class="swiper-button-prev visible-empty"></div>
+        <div class="swiper-button-next visible-empty"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  const localViewed = JSON.parse(localStorage.getItem('checkedItems'));
+  const currTemplate = {{ template | json }};
+  //const checkedLoad = new Event('checkedLoad');
+  const getCheckedItems = () => {
+    const productData = localViewed;
+    const recentlyViewedHtml = [];
+    if (productData !== null){
+      productData.map( item =>{
+        console.dir(item);
+        const worksHtml = item.works !== null && item.works !== undefined ? `<div class="card__works">${item.works}</div>` : '';
+        recentlyViewedHtml.push(`
+          <div class="m_checked-items__item grid__item swiper-slide">
+            <div class="card-wrapper product-card-wrapper underline-links-hover">
+              <div class="card card--standard card--media card--force-square">
+                <div class="card__inner ratio">
+                  <div class="card__media">
+                    <div class="media media--transparent media--hover-effect">
+                      <img src="${item.image.src}" alt="${item.image.alt}">
+                    </div>
+                  </div>
+                </div>
+                <div class="card__content">
+                  <div class="card__information">
+                    <h3 class="card__heading h5" id="checked-item-${item.productId}">
+                      <a href=".${item.url}" class="full-unstyled-link">
+                        ${item.title}
+                      </a>
+                    </h3>
+                    <div class="card-information">
+                      <div class="price">
+                        <div class="price__container">
+                          <div class="price__regular"><span class="price-item price-item--regular">${item.price}</span></div>
+                        </div>
+                      </div>
+                    </div>
+                    ${worksHtml}
+                  </div>
+                </div>
+                <a href="#" class="icon-wishlist-heart-empty wishlist-btn grid-wishlist-btn heart-wishlist-animation" data-wishList data-gridHulkList data-added="false" data-proID="${item.productId}" data-varID="${item.variantId}" style="display:none;">
+                  <div style="display: initial;" class="wishlist_btn_icon">
+                    <img src="https://hulkapps-wishlist.nyc3.digitaloceanspaces.com/custom_icon/empty_set/192838_heart.png" class="hulk-wishlist-custom-icon" width="18px" height="18px" style=" line-height: 1;cursor: pointer;margin-right: 5px;user-select: none;vertical-align: middle;">
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        `)
+      });
+    }
+    if (recentlyViewedHtml.length > 0) {
+      document.querySelector('.l_section--checked-items').classList.remove('u_hide');
+    }
+    const checkedItemsContainer = document.querySelector('.js-checked-item');
+    checkedItemsContainer.innerHTML = recentlyViewedHtml.join('');
+
+    //load dispatch
+    //checkedItemsContainer.dispatchEvent(checkedLoad);
+  }
+
+  const checkedItemSlider = () => {
+    const checkedItemSlider = document.querySelector('.js-checked-item-slider');
+    console.log('function read');
+    if (checkedItemSlider !== null) {
+      console.log('available');
+      const startSwiper = new Swiper('.js-checked-item-slider', {
+        slidesPerView: 2,
+        spaceBetween: 18,
+        breakpoints: {
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 20,
+          },
+          1024: {
+            slidesPerView: 4,
+            spaceBetween: 24,
+          }
+        },
+        navigation: {
+          nextEl: '.js-checked-item-slider .swiper-button-next',
+          prevEl: '.js-checked-item-slider .swiper-button-prev',
+        },
+      });
+    }
+  }
+  document.addEventListener("DOMContentLoaded", function (event) {
+    getCheckedItems();
+    console.log(document.querySelector('.js-checked-item-slider'));
+    //document.querySelector('.js-checked-item-slider').addEventListener('checkedTogglesLoad', function(){
+      //console.log('checkedTogglesLoad');
+      checkedItemSlider();
+    //});
+  });
+</script>
+{% schema %}
+{
+  "name": "Checked Items",
+  "tag": "section",
+  "class": "section l_section l_section--checked-items u_hide",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "classes",
+      "label": "Classes"
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "min": 50,
+      "max": 280,
+      "step": 5,
+      "default": 250,
+      "label": "Header image width"
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "Checked Items"
+    }
+  ]
+}
+{% endschema %}

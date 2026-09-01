@@ -1,0 +1,31 @@
+{%- comment -%}
+  Renders the correct icon based on a string value received
+
+  Accepts:
+    - name: name of icon to render
+{%- endcomment -%}
+
+{%liquid  
+  case name
+    when 'お気に入り'
+      render 'icon-heart'
+    when '新着アイテム'
+      render 'icon-tag-new'
+    when 'タイトルから探す'
+      render 'icon-title-search'
+    when 'カテゴリーから探す'
+      render 'icon-category-search'
+    when 'お知らせ'
+      render 'icon-bell'
+    when 'よくあるご質問'
+      render 'icon-chat'
+    when '注意事項'
+      render 'icon-bikkuri'
+    when 'pattythreeについて'
+      render 'icon-question'
+    when 'ご利用ガイド'
+      render 'icon-guide'
+    when 'お問い合わせ'
+      render 'icon-mail'
+  endcase 
+%}

@@ -1,0 +1,13 @@
+{% liquid
+  assign tags = 'ヘッダー非表示' | split: ','
+  assign classes = ''
+  for item in cart.items
+    for tag in tags
+      if item.product.tags contains tag
+        assign classes = classes | append: 'hidden'
+        break
+      endif
+    endfor
+  endfor
+%}
+{{ classes }}

@@ -1,0 +1,197 @@
+{{ 'section-main-page.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+.maintenance {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  height: 100vh;
+}
+
+.maintenance--inner {
+  padding: 20px;
+  text-align: center;
+}
+
+.maintenance--logo {
+  margin: 0px auto 3.5rem auto;
+  max-width: 485px;
+}
+
+@media screen and (max-width: 749px) {
+  .maintenance--logo {
+    max-width: 305px;
+  }
+}
+
+.maintenance--title {
+  margin-bottom: 1.7rem;
+  font-size: 2.8rem;
+}
+
+@media screen and (max-width: 749px) {
+  .maintenance--title {
+    font-size: 1.8rem;
+  }
+}
+
+.maintenance--text {
+  margin: 0px;
+  font-size: 1.9rem;
+}
+
+@media screen and (max-width: 749px) {
+  .maintenance--text {
+    font-size: 1.2rem;
+  }
+}
+
+#error-page .maintenance {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  height: 100vh;
+  color: #000;
+}
+
+#error-page .maintenance--inner {
+  padding: 20px;
+  text-align: center;
+}
+
+.maintenance--logo {
+  margin: 0px auto 55px auto;
+  max-width: 349px !important;
+}
+
+@media screen and (max-width: 749px) {
+  #error-page .maintenance--logo {
+    max-width: 305px;
+  }
+}
+
+#error-page .maintenance--title {
+  margin-bottom: 1.7rem;
+  font-size: 2.8rem;
+}
+
+@media screen and (max-width: 749px) {
+  #error-page .maintenance--title {
+    font-size: 1.8rem;
+  }
+}
+
+ .maintenance--text {
+  margin: 0px 0 67px 0;
+  font-family: fot-udkakugo-large-pr6n,sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-size:15px;
+
+}
+
+@media screen and (max-width: 749px) {
+  #error-page .maintenance--text {
+    font-size: 1.2rem;
+  }
+  .btn404{
+  padding:0px 20px !important;
+}
+.return{
+  display: block !important;
+}
+}
+.return{
+  display: none;
+}
+.error_404_btn{
+  width:100%;
+}
+.error_404_btn_w{
+  width:100%;
+  margin:0 auto;
+  max-width:760px;
+  display: flex;
+  justify-content: center;
+}
+.btn404{
+  padding:10px 20px;
+  color:#fff;
+  width:45%;
+}
+.btn404 img{
+  width:100%;
+  height:auto;
+}
+
+.btn404 a{
+  color:#fff;
+  text-decoration:none;
+
+}
+.btn404 a:hover{
+opacity: 0.7;
+
+}
+@media screen and (max-width: 749px) {
+  .error_404_btn_w{
+    display: block;
+    max-width: 300px !important;
+  }
+  .btn404{
+
+  width:100%;
+}
+}
+.copy{width:100%;}
+.copy img{margin:0 auto; max-width: 100px;
+  text-align: center;
+  display: block;
+}
+.header-wrapper, .l_footer__nav{display:none;}
+img{border:none;}
+  footer{display:none;}
+{%- endstyle -%}
+
+<div class="page-width page-width--narrow section-{{ section.id }}-padding">
+
+  <div class="rte">
+  <section class="maintenance">
+	<div class="maintenance--inner">
+		<p class="maintenance--logo"><img src="https://pattythree-shop-product.jp/cdn/shop/t/3/assets/pattythree_logo.svg" alt="pattythree" style="border: none;"></p>
+		<p class="maintenance--text">
+      ただいまメンテナンス中です。<br>
+      下記の期間、お問い合わせ以外のコンテンツはご利用いただけません。<br>
+      ご不便をおかけいたしますが、よろしくお願いいたします。<br><br>
+      【メンテナンス期間】9/4（木）10:00～9/5（金）12:00
+		</p>
+
+  <div class="error_404_btn">
+  <div class="error_404_btn_w">
+  <p class="btn404"><a href="https://pattythree.jp/support"><img src="https://pattythree-shop.jp/wp-content/themes/custom/assets/img/mente/mypage_contact_btn.png" style="border: none;"></a></p>
+	</div>  
+  </div> 
+
+</div>
+</section>  </div>
+</div>

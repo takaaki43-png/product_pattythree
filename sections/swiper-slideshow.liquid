@@ -1,0 +1,130 @@
+{{ 'component-slider-swiper.css' | asset_url | stylesheet_tag }}
+
+<div class="swiper slider-swiper js-slider-swiper">
+  <!-- Additional required wrapper -->
+  <div class="swiper-wrapper">
+    <!-- Slides -->
+    {% for block in section.blocks %}
+    <div class="swiper-slide">
+      {%- liquid
+        assign height = block.settings.image.width | divided_by: block.settings.image.aspect_ratio | round
+        assign sizes = '100vw'
+        assign widths = '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
+      -%}
+      {% if block.settings.url != null and block.settings.url != '#'%}
+      <a href="{{ block.settings.url }}" {% if block.settings.new_tab %}target="_blank"{% endif %}>
+      {% endif %}
+        {{
+          block.settings.image
+          | image_url: width: 3840
+          | image_tag:
+            loading: 'lazy',
+            height: height,
+            sizes: sizes,
+            widths: widths,
+            class: 'u_wh100p'
+        }}
+      {% if block.settings.url != null and block.settings.url != '#'%}
+      </a>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  
+  <!-- If we need pagination -->
+  <div class="swiper-pagination{% unless section.settings.pagination%} u_hide{% endunless %}"></div>  
+
+  
+  <!-- If we need navigation buttons -->
+  <div class="swiper-button-prev{% unless section.settings.navigation%} u_hide{% endunless %}"></div>
+  <div class="swiper-button-next{% unless section.settings.navigation%} u_hide{% endunless %}"></div>
+</div>
+{% javascript %}
+const swiper = new Swiper('.js-slider-swiper', {
+  slidesPerView: '1',
+  loop: true,
+  spaceBetween: 10,
+  //createElements: true,
+  watchSlidesProgress: true,
+  centeredSlides: true,
+  speed: 1500,
+  autoplay: {
+    delay: 5000,
+    disableOnInteraction: false,
+    pauseOnMouseEnter: true,
+  },
+  
+
+  // If we need pagination
+  pagination: {
+    el: '.swiper-pagination',
+    type: 'bullets',
+    clickable: true
+  },
+
+  // Navigation arrows
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  },
+});
+{% endjavascript %}
+{% schema %}
+{
+  "name": "スライドショー（swiper js）",
+  "tag": "section",
+  "class": "section section--slideshow",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "pagination",
+      "label": "ページネーションを有効にする",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "navigation",
+      "label": "ナビゲーションを有効にする",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "t:sections.slideshow.blocks.slide.name",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "画像",
+          "info": "画像を選択してください"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "リンク先URL"
+        },
+        {
+          "type": "checkbox",
+          "id": "new_tab",
+          "label": "新しいタブで開く",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "slideshow swiper",
+      "blocks": [
+        {
+          "type": "slide"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

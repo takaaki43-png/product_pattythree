@@ -1,0 +1,25 @@
+<!-- /snippets/social-sharing.liquid -->
+<ul class="social-sharing m_soc-share">
+
+  <li>
+    <a target="_blank" href="//www.facebook.com/sharer.php?u={{ share_url }}" class="btn btn--small btn--share share-facebook m_soc-share__button m_soc-share__button--facebook u_hover">
+      {% render 'icon-facebook' %}
+      <span class="share-title m_soc-share__button__title" aria-hidden="true">シェア</span>
+      <span class="visually-hidden">Facebookでシェアする</span>
+    </a>
+  </li>
+  <li>
+    <a target="_blank" href="//twitter.com/intent/tweet?text={{ share_title | url_param_escape }}&amp;url={{share_url}}&hashtags=pattythree" class="btn btn--small btn--share share-twitter m_soc-share__button m_soc-share__button--twitter u_hover">
+      {% render 'icon-twitter' %}
+      <span class="share-title m_soc-share__button__title" aria-hidden="true">ポスト</span>
+      <span class="visually-hidden">Xにポストする</span>
+    </a>
+  </li>
+  <li>
+    <a target="_blank" href="//pinterest.com/pin/create/button/?url={{ shop.url | append: share_permalink }}&amp;media={{ share_image | img_url: '1024x1024' }}&amp;description={{ share_title | url_param_escape }}" class="btn btn--small btn--share share-pinterest m_soc-share__button m_soc-share__button--pinterest u_hover">
+      {% render 'icon-pinterest' %}
+      <span class="share-title" aria-hidden="true">ピンする</span>
+      <span class="visually-hidden">Pinterestでピンする</span>
+    </a>
+  </li>
+</ul>

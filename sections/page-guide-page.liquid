@@ -1,0 +1,178 @@
+{{ 'section-main-page.css' | asset_url | stylesheet_tag }}
+
+{%- javascript -%}
+window.addEventListener('load', () => {
+  // 初期表示時
+  let heightGet = document.querySelector('.js-height-target').clientHeight;
+  let heightTarget = document.querySelector('.js-height-adjustment');
+  heightTarget.style.height = heightGet + 'px';
+  window.addEventListener('resize', () => {
+    heightGet = document.querySelector('.js-height-target').clientHeight;
+    heightTarget = document.querySelector('.js-height-adjustment');
+    heightTarget.style.height = heightGet + 'px';
+  })
+});
+{%- endjavascript -%}
+
+{%- style -%}
+  .guide-title {
+    font-weight: bold;
+    font-size: 14px;
+  }
+  .numbering-circle {
+    border-radius: 50%;
+    background: #FFDC00;
+    color: black;
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    text-align: center;
+    line-height: 2;
+    margin-right: 20px;
+    vertical-align: 1px;
+  }
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+  
+  .m_faq:nth-of-type(n+2) {
+    margin-top: 60px;
+  }
+  .m_faq__title {
+    background: #FFDC00;
+    text-align: left;
+    font-size: 20px;
+    padding: 18px;
+    line-height: 1;
+    border-radius: 5px;
+    margin-bottom: 50px;
+  }
+  .m_faq__question {
+    cursor: pointer;
+  }
+  .m_faq__topic:first-of-type {
+    margin: 0;
+  }
+  .m_faq__answer {
+    height: 0;
+    overflow: hidden;
+    transition:all 0.5s;
+  }
+  .m_faq__answer__inner {
+    padding-left: 30px;
+  }
+  .list-flow--color-pink {
+    color: #FE77D4 !important;
+  }
+  .list-flow--2column {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .list-flow--2column-block {
+    width: 48%;
+  }
+  .list-flow--2column-title {
+    font-size: 16px;
+    font-family: como,sans-serif;
+    text-align: center;
+    font-weight: 600;
+    margin: 0 0 10px;
+  }
+  .list-flow--2column-title--gray {
+    background: #EBEBEB;
+  }
+  .list-flow--2column-text {
+    font-size: 12px;
+    text-align: center;
+    font-weight: 600;
+    margin: 0 0 20px;
+  }
+  .list-flow--2column-block:nth-of-type(n+3) {
+    margin-top: 40px;
+  }
+  .list-flow--image img {
+    width: 100%;
+    display: block;
+  }
+  .list-flow--image--half {
+    width: 50%;
+    margin: 0 auto;
+  }
+  .list-flow--cvs-icon {
+    max-width: 240px !important;
+    margin: 0 auto;
+  }
+  @media screen and (max-width: 767px) {
+    .list-flow--2column-text--sp-left {
+      text-align: left;
+    }
+    .list-flow--2column-text-2line {
+      min-height: 90px;
+    }
+    .list-flow--2column-title {
+      font-size: 11px;
+    }
+    .list-flow--2column-text {
+      font-size: 10px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="page-width page-width--narrow section-{{ section.id }}-padding">
+  {%- comment -%}
+  一旦削除
+  <h1 class="main-page-title page-title h0">
+    {{ page.title | remove: 'ご利用ガイド-' | escape }}
+  </h1>
+    {%- endcomment -%}
+
+  <div class="rte">
+    {{ page.content }}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.main-page.name",
+  "tag": "section",
+  "class": "section l_section l_section--guide-content m_guides__content",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ]
+}
+{% endschema %}

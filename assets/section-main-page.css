@@ -1,0 +1,82 @@
+.page-title {
+  margin-top: 0;
+}
+
+.main-page-title {
+  margin-bottom: 3rem;
+}
+
+@media screen and (min-width: 750px) {
+  .main-page-title {
+    margin-bottom: 4rem;
+  }
+}
+
+.page-placeholder-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.page-placeholder {
+  width: 52.5rem;
+  height: 52.5rem;
+}
+
+/* Guide page */
+.rte img.no-border {
+  border: none;
+}
+.rte .list-flow {
+  margin: 0px 0px 40px 0px;
+  padding: 0px;
+  counter-reset: count 0;
+}
+
+.rte .list-flow--item {
+  list-style: none;
+  padding: 40px 20px 40px 0px;
+  border-bottom: 1px solid #000;
+}
+
+.rte .list-flow--item:first-child {
+  padding-top: 0px;
+}
+
+.rte .list-flow--item:last-child {
+  border-bottom: 0px;
+}
+
+.rte .list-flow--title {
+  position: relative;
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+  padding: 0.2em 0px 0.2em 45px;
+}
+
+.rte .list-flow--title::before {
+  content: counter(count);
+  counter-increment: count 1;
+  display: block;
+  font-size: 12px;
+  line-height: 24px;
+  width: 24px;
+  height: 24px;
+  text-align: center;
+  background-color: #FFDC00;
+  border-radius: 50%;
+  position: absolute;
+  left: 5px;
+  top: 50%;
+  margin-top: -12px;
+}
+
+.rte .list-flow--contents {
+  padding-left: 45px;
+}
+
+@media screen and (max-width: 749px) {
+  .rte .list-flow--contents {
+    padding-left: 5px;
+  }
+}
