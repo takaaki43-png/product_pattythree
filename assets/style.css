@@ -260,7 +260,16 @@
 
 
   }
+  @media screen and (max-width: 400px) {
+    .sh_socialGroup__links {
+      grid-template-columns: repeat(2, max-content);
+    }
+    .clearcart-modal-actions{
+      display: flex;
+    }
 
+
+  }
   @media screen and (max-width: 420px) {
     .sh_socialLinks__inner {
       padding-right: 0px;
