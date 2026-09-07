@@ -1359,7 +1359,7 @@ body {
   font-family: "fot-udkakugo-large-pr6n", sans-serif;
   font-weight: 600;
   font-style: normal;
-  transform: rotate(270deg);
+  transform: rotate(0deg);
   transition: transform 0.3s linear;
 }
 .m_faq__question__q, .m_faq__question__heading {
