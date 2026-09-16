@@ -1601,9 +1601,7 @@ body {
   box-sizing: border-box;
   width: 100px;
   height: 100px;
-  border: 1px solid #000;
-  border-radius: 5px;
-  padding: 5px;
+  border:none;
 }
 @media (max-width: 749px) {
   .o_cart__items .cart-item__image-container {
@@ -1617,6 +1615,8 @@ body {
   -o-object-fit: contain;
      object-fit: contain;
   max-width: 100%;
+  border: 1px solid #000;
+  border-radius: 5px;
 }
 .o_cart__items .cart-item__name {
   font-size: 13px;
