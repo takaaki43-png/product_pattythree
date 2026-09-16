@@ -850,27 +850,109 @@
 .product-media-container{
   border: none;
 }
-.dream-live-10th{
-  background:#007ac2;
+
+.dream-live-10th {
+  background: #000;
 }
-.dream-live-10th .l_section__header{
-  background:#007ac2 !important;
+
+/* ==============================
+   Background - Black
+============================== */
+.dream-live-10th .l_section__header,
+.dream-live-10th .mobile-facets__main,
+.dream-live-10th .mobile-facets__inner,
+.dream-live-10th .mobile-facets__submenu,
+.dream-live-10th .card__media,
+.dream-live-10th .product-form__quantity {
+  background: #000 !important;
 }
-.dream-live-10th .l_section__header__title__text, .dream-live-10th .product__details-wrapper p,
-.dream-live-10th .product__info-wrapper p, .dream-live-10th .product__info-wrapper h1,
+
+/* ==============================
+   Text - White
+============================== */
+.dream-live-10th #verticalTitle,
+.dream-live-10th .active-facets__button-wrapper .underlined-link,
+.dream-live-10th .active-facets__button-inner,
+.dream-live-10th .l_section__header__title__text,
+.dream-live-10th .product__details-wrapper p,
+.dream-live-10th .product__info-wrapper p,
+.dream-live-10th .product__info-wrapper h1,
 .dream-live-10th .price__regular,
 .dream-live-10th .quantity__input,
-.dream-live-10th .full-unstyled-link{
-  color:#fff !important;
+.dream-live-10th .list-menu__item span,
+.dream-live-10th .mobile-facets__main details span,
+.dream-live-10th #FacetsWrapperDesktop details span,
+.dream-live-10th .breadcrumbs a,
+.dream-live-10th .breadcrumbs span,
+.dream-live-10th .mobile-facets__open-label,
+.dream-live-10th .mobile-facets__close-button,
+.dream-live-10th .pagination__list span,
+.dream-live-10th .full-unstyled-link {
+  color: #fff !important;
 }
-.dream-live-10th .product-form__quantity{
-  background:#007ac2 !important;
+.dream-live-10th .mobile-facets__open line{
+  stroke: rgba(255, 255, 255, 0.85) !important;
 }
+.dream-live-10th .product-form__input input[type="radio"]:checked + label,
+.dream-live-10th .product-form__input input[type="radio"] + label:hover {
+  background-color: #939393 !important;
+}
+.dream-live-10th .val_modal-content{
+  background-color: #000000ff !important;
+}
+/* ==============================
+   Border - White
+============================== */
+.dream-live-10th .facets__disclosure-vertical {
+  border-color: #fff !important;
+}
+
+/* ==============================
+   White Background / Black Text
+============================== */
+.dream-live-10th .product-form__buttons .test,
+.dream-live-10th .card__information__tags__tag--soldout,
+.dream-live-10th .product__tags__tag--soldout,
+.dream-live-10th .mobile-facets__header,
+.dream-live-10th .product__campaign {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+.dream-live-10th .product__campaign p {
+  color: #000 !important;
+}
+
+/* ==============================
+   Product Form Submit
+============================== */
+.dream-live-10th .product-form__submit {
+  background: #fff !important;
+  color: #000 !important;
+}
+.dream-live-10th .active-facets__button-inner{
+  border: 1px solid #fff;
+}
+/* ==============================
+   Product Notice
+============================== */
+.dream-live-10th .product__notice {
+  background-color: #fff !important;
+  color: #f00 !important;
+}
+
+.dream-live-10th .product__notice p {
+  color: #f00 !important;
+}
+
+/* ==============================
+   White Background
+============================== */
 .dream-live-10th .m_soc-share__button,
 .dream-live-10th .product-form__quantity__limits__item,
 .dream-live-10th .product__tags__tag--reserve,
-.dream-live-10th .card__information__tags__tag--reserve{
-  background:#fff !important;
+.dream-live-10th .card__information__tags__tag--reserve {
+  background: #fff !important;
 }
 
 .stream{
