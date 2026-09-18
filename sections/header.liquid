@@ -242,20 +242,17 @@
   {% endcomment %}
 
   {% if forloop.index == 1 %}
-    
-  {% comment %}
+       <a
+      class="sh_menuSideBanner" style="display:none;"
+      href=""
+    >
+      <img
+        src="https://cdn.shopify.com/s/files/1/0776/3515/8331/files/Rectangle_2203.png?v=1789730441"
+        alt=""
+        style="width:100%;"
+      >
+    </a>
 
-        <a
-          class="sh_menuSideBanner"
-          href="{{ banner.url.value }}"
-        >
-          <img
-            src="{{ banner.img_url.value }}"
-            alt=""
-            style="width:100%;"
-          >
-        </a>
-          {% endcomment %}
       {% endif %}
 
           {% endfor %}
