@@ -237,6 +237,27 @@
 
             </details>
 
+  {% comment %}
+    2番目のメニューの直後にサイドバナー
+  {% endcomment %}
+
+  {% if forloop.index == 1 %}
+    
+  {% comment %}
+
+        <a
+          class="sh_menuSideBanner"
+          href="{{ banner.url.value }}"
+        >
+          <img
+            src="{{ banner.img_url.value }}"
+            alt=""
+            style="width:100%;"
+          >
+        </a>
+          {% endcomment %}
+      {% endif %}
+
           {% endfor %}
 <!--
           <details class="sh_menuAccordion">
@@ -299,6 +320,7 @@
             </ul>
           </details>
         -->
+        
           <a class="sh_menuLink" href="/collections/point_item">
             <img src="https://cdn.shopify.com/s/files/1/0827/2563/4283/files/icon_point_m.svg?v=1785290078">
             <span>ポイント交換</span>
