@@ -26,7 +26,15 @@
   endif
 
   if target == product and product.price_varies
-    assign money_price = 'products.product.price.from_price_html' | t: price: money_price
+    assign min_price = product.price_min | money
+    assign max_price = product.price_max | money
+
+    if settings.currency_code_enabled
+      assign min_price = product.price_min | money_with_currency
+      assign max_price = product.price_max | money_with_currency
+    endif
+
+    assign money_price = min_price | append: '〜' | append: max_price
   endif
 -%}
 
