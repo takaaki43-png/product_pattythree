@@ -13,7 +13,7 @@
   <div class="collection-hero__inner page-width">
     <div class="collection-hero__text-wrapper">
 {%- if template.name == 'search' -%}
-  {% render 'section-header-title', title: search.terms | escape , title_en: 'キーワード検索結果', element: 'h1', classes:'l_section__header__title--search' %}
+  {% render 'section-header-title', title: search.terms, title_en: 'キーワード検索結果', element: 'h1', classes: 'l_section__header__title--search' %}
 {%- elsif collection.handle == 'parallel' -%}
 <h1 class="l_section__header__title title">
 <img style="width:15rem;" src="https://cdn.shopify.com/s/files/1/0776/3515/8331/files/logo_5b8e4eb4-0aaa-41f8-9b21-818bb85cf58a.png?v=1744933046">
@@ -22,7 +22,7 @@
 <img style="margin-top:30px; width:100%;" src="https://cdn.shopify.com/s/files/1/0776/3515/8331/files/SpecialBOX_Collections_032de648-cd58-4166-8d21-27d5c44ee691.jpg?v=1772154291">
 
   {%- else -%}
-  {% render 'section-header-title', title: collection.title | escape , title_en: collection.metafields.custom.english_title, element: 'h1' %}
+  {% render 'section-header-title', title: collection.title, title_en: collection.metafields.custom.english_title, element: 'h1' %}
 {%- endif -%}
 
 
@@ -108,3 +108,20 @@
   ]
 }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% render 'section-header-title', title: search.terms | escape , title_en:
+    'キーワード検索結果', element: 'h1', classes:'l_section__header__title--search' %}"
+  to: "{% render 'section-header-title', title: search.terms, title_en: 'キーワード検索結果',
+    element: 'h1', classes: 'l_section__header__title--search' %}"
+  position: 713..852
+- from: "{% render 'section-header-title', title: collection.title | escape , title_en:
+    collection.metafields.custom.english_title, element: 'h1' %}"
+  to: "{% render 'section-header-title', title: collection.title, title_en: collection.metafields.custom.english_title,
+    element: 'h1' %}"
+  position: 1364..1493
+{% endcomment %}

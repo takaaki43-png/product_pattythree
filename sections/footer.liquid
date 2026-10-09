@@ -81,7 +81,7 @@
 {% if page.handle == 'faq' %}
 <div class="u_flex u_jcCenter u_mt40pc u_mt20sp">
   <a href="/pages/guide" class="button button-guide u_hover">
-    {% render 'drawer-icon-renderer', name: 'ご利用ガイド'| escape %}ご利用ガイド
+    {% render 'drawer-icon-renderer', name: 'ご利用ガイド' %}ご利用ガイド
   </a>
 </div>
 {% endif %}
@@ -89,7 +89,7 @@
 {% if page.handle == 'guide' or page.handle == 'guide_order' or page.handle == 'guide_buy' or page.handle == 'guide_fuill' or page.handle == 'guide_other' or page.handle == 'ご利用ガイド-特典について' %}
 <div class="u_flex u_jcCenter u_mt40pc u_mt20sp">
   <a href="/pages/faq" class="button button-guide u_hover">
-    {% render 'icon-chat', name: 'よくあるご質問'| escape %}よくあるご質問
+    {% render 'icon-chat', name: 'よくあるご質問' %}よくあるご質問
   </a>
 </div>
 {% endif %}
@@ -122,7 +122,7 @@
     {% if section.settings.buttons != blank %}
       <div class="l_footer__buttons">
         {% for btn in section.settings.buttons.links %}
-          <a href="{{btn.url}}" class="button l_footer__buttons__button u_hover">{% render 'drawer-icon-renderer', name: btn.title | escape %}{{btn.title}}</a>
+          <a href="{{btn.url}}" class="button l_footer__buttons__button u_hover">{% render 'drawer-icon-renderer', name: btn.title %}{{btn.title}}</a>
         {% endfor %}
       </div>
     {% endif%}
@@ -1104,3 +1104,19 @@ document.addEventListener('DOMContentLoaded',function(){
   }
 }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% render 'drawer-icon-renderer', name: 'ご利用ガイド'| escape %}"
+  to: "{% render 'drawer-icon-renderer', name: 'ご利用ガイド' %}"
+  position: 2176..2227
+- from: "{% render 'icon-chat', name: 'よくあるご質問'| escape %}"
+  to: "{% render 'icon-chat', name: 'よくあるご質問' %}"
+  position: 2567..2608
+- from: "{% render 'drawer-icon-renderer', name: btn.title | escape %}"
+  to: "{% render 'drawer-icon-renderer', name: btn.title %}"
+  position: 4355..4407
+{% endcomment %}
