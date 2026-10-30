@@ -1,0 +1,605 @@
+{{ 'section-main-page.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+{%- comment -%}
+<div class="page-width page-width--narrow section-{{ section.id }}-padding">
+
+  <div class="rte">
+    {{ page.content }}
+  </div>
+</div>
+  いつぬいシリーズ お手入れ方法（/pages/care-and-maintenance）
+  - 画像は「コンテンツ > ファイル」にアップロードしたものを file_url で参照
+  - クラス名はテーマ（Dawn）と衝突しないよう ic- で統一
+  - デザイン基準: PC 1280px / SP 430px（ブレイクポイント 768px）
+{%- endcomment -%}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700;800&display=swap">
+
+<style>
+.ic-page {
+  --c-main: #b46e64;      /* 文字・枠線 */
+  --c-btn-line: #825555;  /* ボタン外周 */
+  --c-paper: #fafafa;     /* カード地・上部バー */
+  --c-bg: #f0dcc8;        /* ギンガム（画像未読込時の下地） */
+
+  /* デザインのフォントは UD丸ゴ_ラージ（B / HV）。
+     Webフォントのライセンスがあればここを差し替えてください。 */
+  --ff: "M PLUS Rounded 1c", "Hiragino Maru Gothic ProN", "ヒラギノ丸ゴ ProN", "Hiragino Sans", "Meiryo", "Noto Sans CJK JP", sans-serif;
+  --fw-bold: 700;   /* UD丸ゴ_ラージ B 相当 */
+  --fw-heavy: 800;  /* UD丸ゴ_ラージ HV 相当 */
+}
+
+.ic-page {
+  color: var(--c-main);
+  font-family: var(--ff);
+  font-weight: var(--fw-bold);
+  font-feature-settings: "palt";
+  line-height: 1.6;
+  letter-spacing: 0;
+  background: var(--c-bg) url("{{ 'gingham.png' | file_url }}") 0 0 / 68px 68px repeat;
+  -webkit-font-smoothing: antialiased;
+}
+.ic-page *, .ic-page *::before, .ic-page *::after { box-sizing: border-box; }
+.ic-page :where(h1, h2, h3, p, ol, ul, li, figure) { margin: 0; padding: 0; }
+.ic-page h1, .ic-page h2, .ic-page h3 { font-family: inherit; color: inherit; word-break: normal; }
+.ic-page ol, .ic-page ul { list-style: none; }
+.ic-page img { display: block; max-width: 100%; height: auto; }
+
+.ic-u-pc { display: none; }
+.ic-u-ib { display: inline-block; text-indent: 0; }
+@media (min-width: 768px) {
+  .ic-u-pc { display: inline; }
+}
+
+.ic-page {
+  position: relative;
+  overflow: hidden;
+  padding-bottom: 80px;
+}
+@media (min-width: 768px) {
+  .ic-page { padding-bottom: 120px; }
+}
+
+/* ---------- 上部のスカラップ ---------- */
+.ic-topbar {
+  display: block;
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 2;
+  height: 86px;
+  background: url("{{ 'scallop.svg' | file_url }}") center top / 96px 86px repeat-x;
+  pointer-events: none;
+}
+
+/* ---------- 看板 ---------- */
+.ic-hero {
+  position: relative;
+  z-index: 1;
+  padding-top: 12px;
+}
+.ic-hero__sign {
+  width: min(380px, calc(100% - 50px));
+  margin: 0 auto;
+}
+@media (min-width: 768px) {
+  .ic-hero { padding-top: 41px; }
+  .ic-hero__sign { width: min(680px, calc(100% - 80px)); }
+}
+
+/* ==========================================================================
+   カード
+   枠の位置・角丸・アーチの高さはカード幅に比例（cqw = カード幅の1%）。
+   線の太さ（外3px / 内5px）は幅に関係なく固定。
+   基準: 幅840px のとき 角丸30 / アーチ高30 / アーチ開始位置100 / 内枠位置12.5
+         幅380px のとき 角丸13.6 / アーチ高13.6 / アーチ開始位置45 / 内枠位置6.8
+   ========================================================================== */
+.ic-main {
+  display: grid;
+  gap: 86px;
+  width: min(840px, calc(100% - 50px));
+  margin: 79px auto 0;
+}
+@media (min-width: 768px) {
+  .ic-main { gap: 100px; margin-top: 80px; }
+}
+
+.ic-card-wrap { container-type: inline-size; }
+
+.ic-card {
+  --line-o: 3px;
+  --line-i: 5px;
+  position: relative;
+  margin-top: 3.5714cqw;                       /* アーチの高さ分 */
+  border: var(--line-o) solid var(--c-main);
+  border-radius: 3.5714cqw;
+  background: var(--c-paper);
+  padding: 0 0 48px;
+}
+
+/* 内側の太線 */
+.ic-card::before {
+  content: "";
+  position: absolute;
+  inset: calc(1.2435cqw + 2.055px - var(--line-o));
+  border: var(--line-i) solid var(--c-main);
+  border-radius: calc(2.3304cqw - 2.08px);
+  pointer-events: none;
+}
+
+/* 上部のアーチ（SVG） */
+.ic-card__arch {
+  position: absolute;
+  z-index: 1;
+  top: calc(-3.5714cqw - var(--line-o));
+  left: calc(11.905cqw - var(--line-o));
+  width: 76.19cqw;
+  height: 7.381cqw;
+  overflow: visible;
+  /* 外線の中心を常に枠から1.5pxの位置に合わせる */
+  transform: translateY(calc(1.5px - 0.1786cqw));
+}
+.ic-card__arch--inner {
+  z-index: 2;
+  /* 内線の中心を内枠（::before）の線の中心に合わせる */
+  transform: translateY(calc(4.555px - 0.5422cqw));
+}
+.ic-arch-fill { fill: var(--c-paper); }
+.ic-arch-line {
+  fill: none;
+  stroke: var(--c-main);
+  vector-effect: non-scaling-stroke;
+}
+.ic-arch-line--outer { stroke-width: 3px; }
+.ic-arch-line--inner { stroke-width: 5px; }
+
+/* 飾り */
+.ic-card__ornament {
+  position: absolute;
+  z-index: 3;
+  top: calc(36.5px - 3.5714cqw - var(--line-o)); /* アーチ頂点から36.5px */
+  left: 50%;
+  width: 166px;
+  margin-left: -83px;
+}
+
+.ic-card__bear {
+  position: absolute;
+  z-index: 3;
+  top: 17px;
+  width: 22px;
+}
+.ic-card__bear--l { left: 18px; }
+.ic-card__bear--r { right: 18px; }
+
+@media (min-width: 768px) {
+  .ic-card__bear {
+    top: 54.6px;
+    width: 30.6px;
+  }
+  .ic-card__bear--l { left: calc(50% - 285px - var(--line-o)); }
+  .ic-card__bear--r { right: calc(50% - 285px - var(--line-o)); }
+  .ic-card--contact .ic-card__bear { display: none; }
+}
+
+.ic-card__body {
+  position: relative;
+  z-index: 3;
+}
+
+/* 見出し */
+.ic-card__title {
+  padding-top: 64px;
+  font-size: clamp(20px, 8cqw, 30px);
+  font-weight: var(--fw-heavy);
+  line-height: 1.2;
+  letter-spacing: .05em;
+  text-align: center;
+}
+@media (min-width: 768px) {
+  .ic-card__title {
+    padding-top: 41px;
+    font-size: min(45px, 5.6cqw);
+  }
+}
+
+/* 点線 */
+.ic-card__rule {
+  display: block;
+  height: 3.36px;
+  margin: 37px 18px 0 15px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15.46 3.36'%3E%3Crect width='9.16' height='3.36' rx='1.68' fill='%23b46e64'/%3E%3C/svg%3E") left center / 15.46px 3.36px repeat-x;
+  background-repeat: space no-repeat;
+}
+@media (min-width: 768px) {
+  .ic-card__rule {
+    height: 5px;
+    margin: 25px 39.5px 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 23 5'%3E%3Crect width='13.5' height='5' rx='2.5' fill='%23b46e64'/%3E%3C/svg%3E");
+    background-size: 23px 5px;
+  }
+}
+
+/* ==========================================================================
+   コンテンツ
+   本文の幅：SP 300px（カード幅の約79%）/ PC 630px（カード幅の75%、2カラム）
+   ========================================================================== */
+.ic-steps,
+.ic-group,
+.ic-card__lead {
+  width: min(78.95cqw, 460px);   /* 300 / 380 */
+  margin-inline: auto;
+}
+.ic-steps { display: grid; gap: 28px; }
+.ic-group .ic-steps { width: auto; }
+
+.ic-steps--face { margin-top: 38px; }
+
+.ic-step__img {
+  width: 100%;
+  aspect-ratio: 300 / 230;
+  object-fit: cover;
+}
+
+.ic-step__text {
+  margin-top: 10px;
+  font-size: 18px;
+  line-height: 1.575;
+  letter-spacing: .035em;
+}
+.ic-step__text--lg {
+  font-size: min(24px, 6.4cqw);
+  line-height: 1.476;
+  letter-spacing: .03em;
+}
+.ic-step__note {
+  margin-top: 3px;
+  font-size: 14px;
+  line-height: 1.772;
+  letter-spacing: .03em;
+  text-align: center;
+}
+.ic-steps--joined + .ic-step__text--wide { margin-top: 10px; }
+
+.ic-group { margin-top: 36px; }
+.ic-group__title {
+  margin-bottom: 10px;
+  white-space: nowrap;
+  font-size: min(24px, 6.4cqw);
+  font-weight: var(--fw-bold);
+  line-height: 1.5;
+  letter-spacing: .05em;
+}
+
+.ic-card__lead {
+  margin-top: 30px;
+  font-size: 18px;
+  line-height: 1.5;
+  letter-spacing: .03em;
+  text-align: center;
+}
+.ic-card__lead + .ic-group { margin-top: 24px; }
+
+.ic-card__notes {
+  width: min(calc(100% - 30px), 520px);
+  margin: 40px auto 0;
+  font-size: 12px;
+  line-height: 1.772;
+  letter-spacing: .03em;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .ic-steps,
+  .ic-group { width: 75cqw; }   /* 630 / 840 */
+  .ic-card__lead { width: auto; margin-inline: 39.5px; }
+
+  .ic-steps {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 4.76%;   /* 30 / 630 */
+    row-gap: 14px;
+  }
+  .ic-group .ic-steps { row-gap: 0; }
+  .ic-steps--face { margin-top: 37.5px; }
+
+  .ic-step__note { text-align: left; }
+
+  .ic-group { margin-top: 50px; }
+  .ic-group + .ic-group { margin-top: 30px; }
+
+  .ic-card__lead { margin-top: 45px; }
+  .ic-card__lead + .ic-group { margin-top: 30px; }
+
+  .ic-card { padding-bottom: 72px; }
+  .ic-card--notes { padding-bottom: 42px; }
+  .ic-card__notes { width: auto; margin: 26px 39.5px 0; }
+}
+
+/* ---------- お問い合わせ ---------- */
+.ic-card--contact .ic-card__body { padding-top: 82px; }
+
+.ic-contact__text {
+  margin-inline: 18px;
+  font-size: 18px;
+  line-height: 1.575;
+  letter-spacing: .05em;
+  text-align: center;
+}
+
+.ic-contact__action {
+  margin: 34px auto 0;
+  width: min(335px, calc(100% - 40px));
+}
+.ic-btn {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: 8px 16px;
+  border-radius: 25px;
+  background: var(--c-main);
+  color: var(--c-paper);
+  font-size: min(17.1px, 4.6cqw);
+  line-height: 1.4;
+  text-align: center;
+  letter-spacing: .05em;
+  text-decoration: none;
+  /* 外周の線（縁の内外にまたがる 2.8px） */
+  box-shadow: 0 0 0 1.42px var(--c-btn-line), inset 0 0 0 1.42px var(--c-btn-line);
+  transition: opacity .2s;
+}
+/* 外周線の切れ目（右上・左下） */
+.ic-btn::before,
+.ic-btn::after {
+  content: "";
+  position: absolute;
+  width: 9.7px;
+  height: 2.84px;
+  background:
+    radial-gradient(circle at 50% 50%, var(--c-btn-line) 1.42px, transparent 1.6px),
+    linear-gradient(var(--c-paper) 50%, var(--c-main) 50%);
+}
+.ic-btn::before { top: -1.42px; right: 26.5px; }
+.ic-btn::after  { bottom: -1.42px; left: 26.5px; }
+.ic-btn:hover { opacity: .8; }
+.ic-btn:focus-visible { outline: 3px solid var(--c-btn-line); outline-offset: 4px; }
+
+.ic-contact__notes {
+  margin: 34px 18px 0 25px;
+  font-size: 14px;
+  line-height: 1.772;
+  letter-spacing: .03em;
+}
+.ic-contact__notes li {
+  padding-left: 1em;
+  text-indent: -1em;
+}
+
+@media (min-width: 768px) {
+  .ic-card--contact .ic-card__body { padding-top: 61px; }
+  .ic-card--contact { padding-bottom: 46px; }
+  .ic-contact__text { margin-inline: 39.5px; }
+  .ic-contact__action { width: 350px; margin-top: 26px; }
+  .ic-btn { font-size: 18px; }
+  .ic-contact__notes { margin: 27px 34px 0; }
+}
+</style>
+
+<!-- カードの上部アーチ（全カード共通で使い回す） -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="ic-arch-outer" viewBox="0 0 640 62" overflow="visible">
+      <path class="ic-arch-fill" d="M0 30C72.98 11.79 189.14 0 320 0s247.02 11.79 320 30v32H0z"/>
+      <path class="ic-arch-line ic-arch-line--outer" d="M-4 31.5h4.3C73.2 13.3 189.2 1.5 320 1.5s246.8 11.8 319.7 30H644"/>
+    </symbol>
+    <symbol id="ic-arch-inner" viewBox="0 0 640 62" overflow="visible">
+      <path class="ic-arch-line ic-arch-line--inner" d="M-6 45h8c13-3.3 27.2-6.4 42.6-9.2C118.7 22.4 216.5 15 320 15s201.3 7.4 275.4 20.8c15.4 2.8 29.6 5.9 42.6 9.2h8"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="ic-page">
+  <span class="ic-topbar" aria-hidden="true"></span>
+
+  <div class="ic-hero">
+    <h1 class="ic-hero__sign">
+      <picture>
+        <source media="(min-width: 768px)" srcset="{{ 'sign-pc.webp' | file_url }}" width="680" height="389">
+        <img src="{{ 'sign-sp.webp' | file_url }}" width="380" height="346" alt="いつぬいシリーズ お手入れ方法">
+      </picture>
+    </h1>
+  </div>
+
+  <div class="ic-main">
+
+    <!-- ========== おかおのマッサージ ========== -->
+    <section class="ic-card-wrap" aria-labelledby="ic-sec-face">
+      <div class="ic-card ic-card--notes">
+        <svg class="ic-card__arch" aria-hidden="true" focusable="false"><use href="#ic-arch-outer"/></svg>
+        <svg class="ic-card__arch ic-card__arch--inner" aria-hidden="true" focusable="false"><use href="#ic-arch-inner"/></svg>
+        <img class="ic-card__ornament" src="{{ 'ornament.svg' | file_url }}" width="166" height="22" alt="">
+        <img class="ic-card__bear ic-card__bear--l" src="{{ 'bear.svg' | file_url }}" width="31" height="27" alt="">
+        <img class="ic-card__bear ic-card__bear--r" src="{{ 'bear.svg' | file_url }}" width="31" height="27" alt="">
+
+        <div class="ic-card__body">
+          <h2 class="ic-card__title" id="ic-sec-face">おかおのマッサージ</h2>
+          <span class="ic-card__rule" aria-hidden="true"></span>
+
+          <ol class="ic-steps ic-steps--face">
+            <li class="ic-step">
+              <img class="ic-step__img" src="{{ 'okao-1.webp' | file_url }}" width="300" height="230" alt="両手の指で頭を円を描くように揉んでいる様子" loading="lazy" decoding="async">
+              <p class="ic-step__text ic-step__text--lg">①わたの偏りを解消するように全体的に優しく揉んでください</p>
+            </li>
+            <li class="ic-step">
+              <img class="ic-step__img" src="{{ 'okao-2.webp' | file_url }}" width="300" height="230" alt="ほっぺを下からふっくらさせるように整えている様子" loading="lazy" decoding="async">
+              <p class="ic-step__text ic-step__text--lg">②少し下膨れになるようにほっぺをふっくらさせてください</p>
+            </li>
+            <li class="ic-step">
+              <img class="ic-step__img" src="{{ 'okao-3.webp' | file_url }}" width="300" height="230" alt="乱れた毛を毛並みに沿って撫でている様子" loading="lazy" decoding="async">
+              <p class="ic-step__text ic-step__text--lg">③揉んで乱れた毛を、毛並みに沿って撫でて整えてください</p>
+              <p class="ic-step__note"><span class="ic-u-ib">※ボーンが頭のほうに偏っている場合は、</span><span class="ic-u-ib">ボーンの先端を優しく押し込んでください</span></p>
+            </li>
+            <li class="ic-step">
+              <img class="ic-step__img" src="{{ 'okao-4.webp' | file_url }}" width="300" height="230" alt="おかおがきれいに整ったぬいぐるみ" loading="lazy" decoding="async">
+              <p class="ic-step__text ic-step__text--lg">④愛情を込めてマッサージをすると、おかおがきれいに整います♪</p>
+            </li>
+          </ol>
+
+          <div class="ic-card__notes">
+            <p><span class="ic-u-ib">※10cmほど離してスチームアイロンを当て、</span><span class="ic-u-ib">生地を整えていただくことで</span><span class="ic-u-ib">解消される場合もございます。</span></p>
+            <p><span class="ic-u-ib">※蒸気で火傷をする恐れがございます。</span><span class="ic-u-ib">お手入れの際は十分ご注意ください。</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== からだのマッサージ ========== -->
+    <section class="ic-card-wrap" aria-labelledby="ic-sec-body">
+      <div class="ic-card">
+        <svg class="ic-card__arch" aria-hidden="true" focusable="false"><use href="#ic-arch-outer"/></svg>
+        <svg class="ic-card__arch ic-card__arch--inner" aria-hidden="true" focusable="false"><use href="#ic-arch-inner"/></svg>
+        <img class="ic-card__ornament" src="{{ 'ornament.svg' | file_url }}" width="166" height="22" alt="">
+        <img class="ic-card__bear ic-card__bear--l" src="{{ 'bear.svg' | file_url }}" width="31" height="27" alt="">
+        <img class="ic-card__bear ic-card__bear--r" src="{{ 'bear.svg' | file_url }}" width="31" height="27" alt="">
+
+        <div class="ic-card__body">
+          <h2 class="ic-card__title" id="ic-sec-body">からだのマッサージ</h2>
+          <span class="ic-card__rule" aria-hidden="true"></span>
+
+          <div class="ic-group">
+            <h3 class="ic-group__title">①上下に偏っている場合…</h3>
+            <ul class="ic-steps">
+              <li class="ic-step">
+                <img class="ic-step__img" src="{{ 'karada-1.webp' | file_url }}" width="300" height="230" alt="頭のボーンの先を上から押しながらお尻のわたを揉んでいる様子" loading="lazy" decoding="async">
+                <p class="ic-step__text">頭、もしくはお尻にあるボーンの先を優しく押してください。その際、移動する先のわたを同時に揉むとボーンが移動しやすいです</p>
+              </li>
+              <li class="ic-step">
+                <img class="ic-step__img" src="{{ 'karada-2.webp' | file_url }}" width="300" height="230" alt="背面側から同じように揉んでいる様子" loading="lazy" decoding="async">
+                <p class="ic-step__text">背面側からも同じように揉むと移動がしやすい場合がございます</p>
+              </li>
+            </ul>
+          </div>
+
+          <div class="ic-group">
+            <h3 class="ic-group__title">②左右に偏っている場合…</h3>
+            <ul class="ic-steps ic-steps--joined">
+              <li class="ic-step">
+                <img class="ic-step__img" src="{{ 'karada-3.webp' | file_url }}" width="300" height="230" alt="頭と腕のわたを横方向に揉んでいる様子" loading="lazy" decoding="async">
+              </li>
+              <li class="ic-step">
+                <img class="ic-step__img" src="{{ 'karada-4.webp' | file_url }}" width="300" height="230" alt="体と腕のわたを横方向に揉んでいる様子" loading="lazy" decoding="async">
+              </li>
+            </ul>
+            <p class="ic-step__text ic-step__text--wide">体の中心にボーンが通るように、頭・体・腕・足のわたをそれぞれ揉みながらボーンを押して移動させます</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== こんなときには… ========== -->
+    <section class="ic-card-wrap" aria-labelledby="ic-sec-trouble">
+      <div class="ic-card">
+        <svg class="ic-card__arch" aria-hidden="true" focusable="false"><use href="#ic-arch-outer"/></svg>
+        <svg class="ic-card__arch ic-card__arch--inner" aria-hidden="true" focusable="false"><use href="#ic-arch-inner"/></svg>
+        <img class="ic-card__ornament" src="{{ 'ornament.svg' | file_url }}" width="166" height="22" alt="">
+        <img class="ic-card__bear ic-card__bear--l" src="{{ 'bear.svg' | file_url }}" width="31" height="27" alt="">
+        <img class="ic-card__bear ic-card__bear--r" src="{{ 'bear.svg' | file_url }}" width="31" height="27" alt="">
+
+        <div class="ic-card__body">
+          <h2 class="ic-card__title" id="ic-sec-trouble">こんなときには…</h2>
+          <span class="ic-card__rule" aria-hidden="true"></span>
+
+          <p class="ic-card__lead"><span class="ic-u-ib">"ぬい"のお肌は非常に</span><span class="ic-u-ib">デリケートです。</span><span class="ic-u-ib">強い摩擦や直射日光は</span><span class="ic-u-ib">苦手なので</span><span class="ic-u-ib">注意しましょう。</span></p>
+
+          <div class="ic-group">
+            <h3 class="ic-group__title">①汚れてしまった時には…</h3>
+            <ul class="ic-steps">
+              <li class="ic-step">
+                <img class="ic-step__img" src="{{ 'konna-1.webp' | file_url }}" width="300" height="230" alt="ブラシで表面のほこりを払っている様子" loading="lazy" decoding="async">
+                <p class="ic-step__text">ブラッシングで表面のほこりを払ってください</p>
+              </li>
+              <li class="ic-step">
+                <img class="ic-step__img" src="{{ 'konna-2.webp' | file_url }}" width="300" height="230" alt="固く絞った布で軽く叩くように拭いている様子" loading="lazy" decoding="async">
+                <p class="ic-step__text">中性洗剤を薄めた水をつけた布を固く絞り、軽い力で叩くように拭き取ってください</p>
+              </li>
+            </ul>
+          </div>
+
+          <div class="ic-group">
+            <h3 class="ic-group__title">②濡れてしまった時には…</h3>
+            <ul class="ic-steps ic-steps--joined">
+              <li class="ic-step">
+                <img class="ic-step__img" src="{{ 'konna-3.webp' | file_url }}" width="300" height="230" alt="乾いたタオルで包んで水分をとっている様子" loading="lazy" decoding="async">
+              </li>
+              <li class="ic-step">
+                <img class="ic-step__img" src="{{ 'konna-4.webp' | file_url }}" width="300" height="230" alt="風通しの良い場所で乾かしている様子" loading="lazy" decoding="async">
+              </li>
+            </ul>
+            <p class="ic-step__text ic-step__text--wide">乾いたタオルなどで抑えるようにして水分をとり、風通しが良い場所でしっかり乾かしてください</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== お問い合わせ ========== -->
+    <section class="ic-card-wrap" aria-label="お問い合わせ">
+      <div class="ic-card ic-card--contact">
+        <svg class="ic-card__arch" aria-hidden="true" focusable="false"><use href="#ic-arch-outer"/></svg>
+        <svg class="ic-card__arch ic-card__arch--inner" aria-hidden="true" focusable="false"><use href="#ic-arch-inner"/></svg>
+        <img class="ic-card__ornament" src="{{ 'ornament.svg' | file_url }}" width="166" height="22" alt="">
+        <img class="ic-card__bear ic-card__bear--l" src="{{ 'bear.svg' | file_url }}" width="31" height="27" alt="">
+        <img class="ic-card__bear ic-card__bear--r" src="{{ 'bear.svg' | file_url }}" width="31" height="27" alt="">
+
+        <div class="ic-card__body">
+          <p class="ic-contact__text"><span class="ic-u-ib">以上のお手入れをしても改善されず、</span><span class="ic-u-ib">お手元のぬいぐるみ商品が</span><span class="ic-u-ib">不良品と思われる場合は、</span><br class="ic-u-pc"><span class="ic-u-ib">商品到着後</span><span class="ic-u-ib">7日以内に</span><span class="ic-u-ib">お問い合わせフォームより</span><span class="ic-u-ib">ご連絡ください。</span></p>
+
+          <p class="ic-contact__action">
+            <a class="ic-btn" href="{{ section.settings.contact_url | escape }}"><span class="ic-u-ib">pattythree</span><span class="ic-u-ib">お問い合わせフォーム</span></a>
+          </p>
+
+          <ul class="ic-contact__notes">
+            <li><span class="ic-u-ib">※商品がお手元に届いた際は、</span><span class="ic-u-ib">すぐにご開封いただき、</span><span class="ic-u-ib">商品内容をご確認ください。</span></li>
+            <li><span class="ic-u-ib">※商品到着日から7日を経過した商品の</span><span class="ic-u-ib">返品、交換は状態により</span><span class="ic-u-ib">承れない場合があります。</span><span class="ic-u-ib">あらかじめご了承ください。</span></li>
+            <li><span class="ic-u-ib">※返品、交換の対応は初期不良のみです。</span><span class="ic-u-ib">商品到着日から7日以内であっても</span><span class="ic-u-ib">使用した形跡のある商品の返品、</span><br class="ic-u-pc"><span class="ic-u-ib">交換はお受けできません。</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "いつぬい お手入れ方法",
+  "tag": "section",
+  "class": "section-itsunui-care",
+  "settings": [
+    {
+      "type": "text",
+      "id": "contact_url",
+      "label": "お問い合わせボタンのリンク先",
+      "default": "https://pattythree.jp/support"
+    }
+  ],
+  "presets": [
+    { "name": "いつぬい お手入れ方法" }
+  ]
+}
+{% endschema %}
