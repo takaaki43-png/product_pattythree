@@ -26,20 +26,47 @@
 </div>
 
 {%- javascript -%}
-  window.addEventListener('load', () => {
-    const target = document.querySelectorAll('.js-faq-toggle');
-    target.forEach((v) => {
-      v.addEventListener('click', (e) => {
-        e.currentTarget.classList.toggle('is-open'); 
-        e.currentTarget.nextElementSibling.classList.toggle('is-open'); 
-        if (e.currentTarget.nextElementSibling.classList.contains('is-open')) {
-          e.currentTarget.nextElementSibling.style.height = e.currentTarget.nextElementSibling.scrollHeight + 'px';
-        } else {
-          e.currentTarget.nextElementSibling.style.height = '0';
-        }
+  (() => {
+    const openFaq = (toggle) => {
+      const answer = toggle.nextElementSibling;
+      toggle.classList.add('is-open');
+      answer.classList.add('is-open');
+      answer.style.height = answer.scrollHeight + 'px';
+    };
+
+    const closeFaq = (toggle) => {
+      const answer = toggle.nextElementSibling;
+      toggle.classList.remove('is-open');
+      answer.classList.remove('is-open');
+      answer.style.height = '0';
+    };
+
+    const openFromHash = () => {
+      const hash = decodeURIComponent(location.hash.slice(1));
+      if (!hash) return;
+
+      const topic = document.getElementById(hash);
+      if (!topic || !topic.classList.contains('js-faq')) return;
+
+      const toggle = topic.querySelector('.js-faq-toggle');
+      if (!toggle) return;
+
+      openFaq(toggle);
+      topic.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
+    window.addEventListener('load', () => {
+      document.querySelectorAll('.js-faq-toggle').forEach((toggle) => {
+        toggle.addEventListener('click', () => {
+          toggle.classList.contains('is-open') ? closeFaq(toggle) : openFaq(toggle);
+        });
       });
+
+      openFromHash();
     });
-  });
+
+    window.addEventListener('hashchange', openFromHash);
+  })();
 {%- endjavascript -%}
 
 {%- style -%}
